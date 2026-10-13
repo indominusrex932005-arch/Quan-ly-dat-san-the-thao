@@ -65,7 +65,7 @@ docs/                  Tài liệu
 - [Các bước phát triển tiếp](docs/CONG_VIEC_TIEP_THEO.md)
 - [Kế hoạch hoàn thành bản final trong 3 tuần](docs/KE_HOACH_3_TUAN.md)
 
-Các file Word và sơ đồ cũ trong `docs/` chưa được sửa theo phương án mới. Chúng vẫn có nội dung về duyệt đơn và phương án nhóm cũ; dùng tài liệu nghiệp vụ hiện hành trên làm căn cứ cho code và cập nhật tài liệu nộp trước hạn final.
+Dùng các tài liệu Markdown trên làm căn cứ cho code. File Word và sơ đồ nộp final cần được làm theo nghiệp vụ hiện hành và chức năng đã hoàn thành; hiện chưa có bản cập nhật trong repo.
 
 ## Giao task cho AI
 

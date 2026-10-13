@@ -10,7 +10,7 @@ Dự án quản lý đặt sân thể thao cho môn System và Advanced Web, nh�
 4. `CONTRIBUTING.md`: nhánh task, Pull Request và kiểm tra.
 5. `docs/CONG_VIEC_TIEP_THEO.md`, sau đó code/test liên quan đến task.
 
-File Word và hình cũ trong `docs/` chưa cập nhật theo phương án hiện tại. Khi có mâu thuẫn, dùng tài liệu Markdown hiện hành và yêu cầu mới nhất của nhóm trưởng. Không khôi phục bước quản lý duyệt đơn chỉ vì thấy trong tài liệu cũ.
+Dùng tài liệu Markdown hiện hành và yêu cầu mới nhất của nhóm trưởng làm căn cứ. File Word và sơ đồ nộp final cần được làm theo nghiệp vụ hiện hành và chức năng đã hoàn thành; hiện chưa có bản cập nhật trong repo.
 
 ## Công nghệ hiện tại
 
