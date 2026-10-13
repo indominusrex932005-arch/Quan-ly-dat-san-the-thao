@@ -63,6 +63,7 @@ docs/                  Tài liệu
 - [API và phần chưa triển khai](docs/API.md)
 - [Cách làm nhóm và bật bảo vệ main](CONTRIBUTING.md)
 - [Các bước phát triển tiếp](docs/CONG_VIEC_TIEP_THEO.md)
+- [Kế hoạch prototype 3 tuần](docs/KE_HOACH_3_TUAN.md)
 
 Các file Word và sơ đồ cũ trong `docs/` chưa được sửa theo phương án mới. Chúng vẫn có nội dung về duyệt đơn và phương án nhóm cũ; dùng tài liệu prototype trên làm căn cứ cho code hiện tại.
 

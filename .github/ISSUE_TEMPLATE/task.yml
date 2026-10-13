@@ -1,0 +1,37 @@
+name: Task của nhóm
+description: Giao một phần việc với đầu ra và tiêu chí đạt rõ ràng.
+title: "[Task] "
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Mục tiêu và đầu ra
+      description: Ghi một chức năng cụ thể, người dùng thao tác gì và cần nhận kết quả gì.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Phạm vi
+      description: Trang, API hoặc module được giao; dữ liệu đầu vào và tài liệu cần đọc.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Tiêu chí đạt
+      description: Liệt kê các thao tác cần demo và trường hợp lỗi cần kiểm tra.
+    validations:
+      required: true
+  - type: input
+    id: deadline
+    attributes:
+      label: Hạn bàn giao
+      placeholder: DD/MM/YYYY
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Phụ thuộc và phần chưa chốt
+      description: API cần chờ, dữ liệu mẫu đang dùng hoặc câu hỏi cần làm rõ.
