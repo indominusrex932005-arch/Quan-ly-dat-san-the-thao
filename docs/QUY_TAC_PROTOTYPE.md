@@ -1,6 +1,6 @@
-# Quy tắc prototype – cập nhật 14/10/2026
+# Quy tắc nghiệp vụ hiện tại – cập nhật 14/10/2026
 
-Đây là lựa chọn thiết kế của nhóm, không coi là kết quả phỏng vấn chủ sân. Prototype có thể được điều chỉnh sau.
+Đây là lựa chọn thiết kế của nhóm, không coi là kết quả phỏng vấn chủ sân. Tên file được giữ để các liên kết cũ vẫn dùng được. Nhóm có 3 tuần để hoàn thành và nộp final; các chi tiết còn mở cần được chốt trong tuần đầu. Chế độ dữ liệu mẫu hiện có chỉ phục vụ phát triển.
 
 ## Đã thống nhất
 
@@ -18,12 +18,12 @@
 - Giữ lịch cũ cho đến khi đổi thành công.
 - Đơn nhận Zalo/tại quầy được chủ sân nhập và đánh dấu booked; chủ sân tự kiểm tra tiền mặt/chuyển khoản.
 - Quản lý chịu trách nhiệm giải quyết xung đột do đơn bên ngoài không được cập nhật.
-- Kết nối MB Bank sẽ làm sau. Prototype không xác nhận tiền thật.
+- Kết nối MB Bank chưa thực hiện; xử lý phụ thuộc nhà cung cấp sớm để hoàn thành thanh toán tự động cho final. Chế độ mẫu hiện tại không xác nhận tiền thật.
 
 ## Cách lưu và xử lý dự kiến
 
 - Một đơn gồm danh sách ô, không dùng khoảng từ giờ đầu đến giờ cuối để chiếm cả các ô ở giữa.
-- Prototype dự kiến một đơn thuộc một sân và một ngày. Chọn ngày/sân khác thì tạo đơn khác.
+- Phương án hiện tại dự kiến một đơn thuộc một sân và một ngày. Chọn ngày/sân khác thì tạo đơn khác.
 - Giờ hiển thị theo Việt Nam (UTC+7), thời điểm lưu dưới dạng Date.
 - Giá trong bản đầu gồm giá thường và giá từ mốc cao điểm. Bảng giá cuối tuần, ngày lễ và nhiều khoảng giá chưa triển khai.
 - Lưu tên/số điện thoại từ lúc tạo đơn chờ thanh toán. Trang xác nhận cho khách kiểm tra lại.

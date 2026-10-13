@@ -1,6 +1,6 @@
 # Hệ thống quản lý đặt sân thể thao – Nhóm 5
 
-Dự án cho môn System và Advanced Web. Nhóm có 4 thành viên. Bản hiện tại là bộ khởi đầu để phát triển chung, chưa phải hệ thống đặt sân hoàn chỉnh.
+Dự án cho môn System và Advanced Web. Nhóm có 4 thành viên, còn 3 tuần để hoàn thành và nộp bản final. Bản hiện tại là bộ khởi đầu để phát triển chung, chưa phải hệ thống đặt sân hoàn chỉnh. Dữ liệu mẫu phục vụ phát triển; mục tiêu bản nộp là các chức năng đã thống nhất chạy với dữ liệu lưu thật.
 
 ## Công nghệ
 
@@ -59,13 +59,13 @@ docs/                  Tài liệu
 
 ## Tài liệu hiện hành
 
-- [Quy tắc prototype](docs/QUY_TAC_PROTOTYPE.md)
+- [Quy tắc nghiệp vụ hiện tại](docs/QUY_TAC_PROTOTYPE.md)
 - [API và phần chưa triển khai](docs/API.md)
 - [Cách làm nhóm và bật bảo vệ main](CONTRIBUTING.md)
 - [Các bước phát triển tiếp](docs/CONG_VIEC_TIEP_THEO.md)
-- [Kế hoạch prototype 3 tuần](docs/KE_HOACH_3_TUAN.md)
+- [Kế hoạch hoàn thành bản final trong 3 tuần](docs/KE_HOACH_3_TUAN.md)
 
-Các file Word và sơ đồ cũ trong `docs/` chưa được sửa theo phương án mới. Chúng vẫn có nội dung về duyệt đơn và phương án nhóm cũ; dùng tài liệu prototype trên làm căn cứ cho code hiện tại.
+Các file Word và sơ đồ cũ trong `docs/` chưa được sửa theo phương án mới. Chúng vẫn có nội dung về duyệt đơn và phương án nhóm cũ; dùng tài liệu nghiệp vụ hiện hành trên làm căn cứ cho code và cập nhật tài liệu nộp trước hạn final.
 
 ## Giao task cho AI
 
@@ -93,7 +93,7 @@ và npm test nếu sửa code. Báo file đã sửa, kết quả và phần còn
 Nếu không đọc được repo, nói rõ để tôi cung cấp file; không đoán code.
 ```
 
-Nhóm trưởng giao phạm vi riêng cho mỗi người, sau đó xem diff và demo trong Pull Request trước khi merge. Việc AI đọc tài liệu không thay thế kiểm tra kết quả.
+Nhóm trưởng giao phạm vi riêng cho mỗi người, sau đó xem diff và kiểm tra thao tác trong Pull Request trước khi merge. Việc AI đọc tài liệu không thay thế kiểm tra kết quả.
 
 ## Triển khai sau
 

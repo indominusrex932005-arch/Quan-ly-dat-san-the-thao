@@ -20,7 +20,7 @@ body:
     id: acceptance
     attributes:
       label: Tiêu chí đạt
-      description: Liệt kê các thao tác cần demo và trường hợp lỗi cần kiểm tra.
+      description: Liệt kê các thao tác và trường hợp lỗi cần kiểm tra để hoàn thành task.
     validations:
       required: true
   - type: input

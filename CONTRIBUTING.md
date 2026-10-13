@@ -50,7 +50,7 @@ Trong một nhánh thử, tạo Pull Request có một lỗi JavaScript rõ ràn
 
 - Check xanh và không còn xung đột với main.
 - Đọc diff để biết những file nào bị sửa; phần thay đổi đúng task.
-- Xem demo đúng tiêu chí đạt, trên điện thoại nếu đổi UI.
+- Kiểm tra thao tác đúng tiêu chí đạt, trên điện thoại nếu đổi UI.
 - Với chức năng nghiệp vụ mới, có kiểm thử tương ứng. Hiện CI chưa kiểm thử MongoDB thật hoặc ngân hàng thật; không suy ra những phần đó đúng từ check xanh.
 - Mỗi PR giải quyết một task vừa đủ nhỏ để review. Không sửa test hoặc giảm điều kiện kiểm tra chỉ để làm check xanh.
 

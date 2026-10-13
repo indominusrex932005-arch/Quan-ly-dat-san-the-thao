@@ -1,6 +1,6 @@
 # Hướng dẫn tiếp nhận dự án
 
-Dự án quản lý đặt sân thể thao cho môn System và Advanced Web, nhóm 4 người. Đọc hướng dẫn này trước khi sửa code. Repo hiện là bộ khởi đầu, chưa phải hệ thống đặt sân hoàn chỉnh.
+Dự án quản lý đặt sân thể thao cho môn System và Advanced Web, nhóm 4 người. Đọc hướng dẫn này trước khi sửa code. Repo hiện là bộ khởi đầu, chưa phải hệ thống đặt sân hoàn chỉnh. Nhóm trưởng xác nhận còn 3 tuần là nộp final; không diễn giải thời hạn này thành một mốc chỉ nộp prototype. Đọc `docs/KE_HOACH_3_TUAN.md` để biết mục tiêu bản hoàn chỉnh. Ngày nộp cụ thể chưa được cung cấp.
 
 ## Thứ tự đọc
 
@@ -28,10 +28,11 @@ File Word và hình cũ trong `docs/` chưa cập nhật theo phương án hiệ
 - Không có duyệt đơn web. Khi tạo đơn thật phải giữ toàn bộ ô trong transaction, lưu khách và trạng thái WAITING_PAYMENT.
 - Giữ chỗ 10 phút; hết hạn chưa trả thì giải phóng ô. LOCKED phải có thời hạn; booked vẫn giữ lịch nếu khách không đến.
 - Xác nhận đơn web sau khi backend xác minh nhận đủ tiền. Nút khách bấm hoặc ảnh QR không chứng minh đã nhận tiền.
-- Đổi lịch thu 30.000đ + chênh lệch dương; giá mới thấp hơn không hoàn chênh lệch trong prototype. Giữ đơn cũ cho đến khi đổi thành công.
-- Hủy từ 24 giờ trước giờ chơi hoàn 100%; dưới 24 giờ nhưng chưa bắt đầu hoàn 50%. Đến trễ/không đến không hoàn. Những chi tiết chưa xác định nằm trong tài liệu quy tắc, không coi giả định làm prototype là chính sách đã xác nhận.
+- Đổi lịch thu 30.000đ + chênh lệch dương; giá mới thấp hơn không hoàn chênh lệch theo lựa chọn hiện tại. Giữ đơn cũ cho đến khi đổi thành công.
+- Hủy từ 24 giờ trước giờ chơi hoàn 100%; dưới 24 giờ nhưng chưa bắt đầu hoàn 50%. Đến trễ/không đến không hoàn. Những chi tiết chưa xác định nằm trong tài liệu quy tắc, cần chốt sớm và không coi giả định phát triển là chính sách đã xác nhận.
 - Chủ sân nhập đơn Zalo/tại quầy, đánh dấu booked và tự ghi nhận tiền nhận ngoài web.
 - MB Bank chưa được kết nối. Không dựng một webhook không xác thực hoặc cho môi trường thật xác nhận tiền bằng nút mô phỏng.
+- Thanh toán tự động là yêu cầu final; xử lý phụ thuộc nhà cung cấp sớm. Chế độ dữ liệu mẫu hiện tại chưa đáp ứng yêu cầu này. Không tự giảm phạm vi final thành bản mô phỏng.
 
 ## Phần đã có và chưa có
 
@@ -48,7 +49,7 @@ Không báo rằng một chức năng đã hoàn thành chỉ vì có schema, gi
 - Làm trên nhánh task; gửi Pull Request vào main theo hướng dẫn làm nhóm.
 - Không sửa test để che lỗi. Viết/chạy kiểm thử phù hợp với thay đổi nghiệp vụ; thay đổi tài liệu đơn giản không cần thêm test.
 - Không coi schema unique index là bằng chứng đã chống trùng lịch. Phần ghi đơn cần kiểm thử thật với MongoDB replica set và nhiều yêu cầu đồng thời.
-- Báo các file đã sửa, cách kiểm tra, kết quả và phần chưa hoàn thành. Với quy tắc chưa chốt, ghi rõ giả định dùng cho prototype.
+- Báo các file đã sửa, cách kiểm tra, kết quả và phần chưa hoàn thành. Với quy tắc chưa chốt, ghi rõ giả định phát triển để nhóm trưởng quyết định; không coi chức năng mẫu là đã hoàn thành final.
 
 ## Cài và chạy
 
