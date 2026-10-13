@@ -51,6 +51,19 @@ describe('Trang và API khởi đầu', () => {
     expect(response.text).toContain('19:30–20:00');
     expect(response.text).not.toContain('<script>alert(1)</script>');
   });
+  it('form báo giá nhận một ô đơn lẻ và tính đúng 30 phút, 40.000đ', async () => {
+    const response = await request(app).post('/quotes').type('form').send({
+      courtId: payload.courtId,
+      date: payload.date,
+      times: '16:30',
+      name: payload.guest.name,
+      phone: payload.guest.phone,
+    });
+    expect(response.status).toBe(200);
+    expect(response.text).toContain('16:30–17:00');
+    expect(response.text).toContain('30 phút');
+    expect(response.text).toContain(new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(40000));
+  });
   it('từ chối ngày không hợp lệ và sân không có', async () => {
     expect((await request(app).get('/api/courts/san-mau-1/availability?date=2026-02-30')).status).toBe(400);
     expect((await request(app).get('/courts/khong-co')).status).toBe(404);
@@ -59,4 +72,78 @@ describe('Trang và API khởi đầu', () => {
     expect(() => loadConfig({ NODE_ENV: 'production', DEMO_MODE: 'true' })).toThrow();
     expect(() => loadConfig({ NODE_ENV: 'production', DEMO_MODE: 'false' })).toThrow();
   });
+});
+
+describe('Xử lý đầu vào và lỗi HTTP', () => {
+  it('API báo giá trả 400 khi không có body', async () => {
+    const response = await request(app).post('/api/quotes');
+    expect(response.status).toBe(400);
+    expect(response.headers['content-type']).toMatch(/application\/json/);
+    expect(response.body.error.code).toBe('VALIDATION_ERROR');
+  });
+
+  it('form báo giá trả trang lỗi 400 khi không có body', async () => {
+    const response = await request(app).post('/quotes');
+    expect(response.status).toBe(400);
+    expect(response.headers['content-type']).toMatch(/text\/html/);
+    expect(response.text).toContain('<h1 class="h4">Không thực hiện được thao tác</h1>');
+  });
+
+  it('API trả 413 và mã lỗi rõ ràng khi JSON vượt 20KB', async () => {
+    const response = await request(app).post('/api/quotes').send({
+      ...payload,
+      guest: { ...payload.guest, name: 'a'.repeat(21 * 1024) },
+    });
+    expect(response.status).toBe(413);
+    expect(response.headers['content-type']).toMatch(/application\/json/);
+    expect(response.body.error.code).toBe('PAYLOAD_TOO_LARGE');
+  });
+
+  it.each(['get', 'post'])('API không tồn tại trả JSON 404 với method %s', async method => {
+    const response = await request(app)[method]('/api/khong-co');
+    expect(response.status).toBe(404);
+    expect(response.headers['content-type']).toMatch(/application\/json/);
+    expect(response.body.error.code).toBe('NOT_FOUND');
+  });
+
+  it('đường dẫn /api cũng trả JSON 404', async () => {
+    const response = await request(app).get('/api');
+    expect(response.status).toBe(404);
+    expect(response.headers['content-type']).toMatch(/application\/json/);
+    expect(response.body.error.code).toBe('NOT_FOUND');
+  });
+
+  it('JSON hỏng ở trang báo giá vẫn render trang lỗi 400 của ứng dụng', async () => {
+    const response = await request(app).post('/quotes').type('json').send('{invalid');
+    expect(response.status).toBe(400);
+    expect(response.headers['content-type']).toMatch(/text\/html/);
+    expect(response.text).toContain('<h1 class="h4">Không thực hiện được thao tác</h1>');
+    expect(response.text).not.toContain('demo is not defined');
+    expect(response.text).not.toContain('ReferenceError');
+    expect(response.text).not.toContain('/workspace/');
+  });
+
+  it('form vượt 20KB vẫn render trang lỗi 413 của ứng dụng', async () => {
+    const response = await request(app).post('/quotes').type('form').send({
+      courtId: payload.courtId,
+      date: payload.date,
+      times: payload.times,
+      name: 'a'.repeat(21 * 1024),
+      phone: payload.guest.phone,
+    });
+    expect(response.status).toBe(413);
+    expect(response.headers['content-type']).toMatch(/text\/html/);
+    expect(response.text).toContain('<h1 class="h4">Không thực hiện được thao tác</h1>');
+    expect(response.text).not.toContain('demo is not defined');
+    expect(response.text).not.toContain('ReferenceError');
+    expect(response.text).not.toContain('/workspace/');
+  });
+
+  it.each([{}, { ...payload, courtId: { id: payload.courtId } }])(
+    'API báo giá trả 400 khi request sai cấu trúc: %j', async body => {
+      const response = await request(app).post('/api/quotes').send(body);
+      expect(response.status).toBe(400);
+      expect(response.body.error.code).toBe('VALIDATION_ERROR');
+    },
+  );
 });

@@ -25,7 +25,16 @@ Response có `demo`, `holdsSlots: false`, `guest`, `courtId`, `date`, `slots`, `
 
 Ô giờ có `time`, `endTime`, `priceVND`, `status`: AVAILABLE, BOOKED, LOCKED, UNAVAILABLE. LOCKED ở dữ liệu mẫu dùng để thiết kế UI, không phải đơn thật.
 
-Lỗi API dùng `{ "error": { "code": "VALIDATION_ERROR", "message": "..." } }`. HTTP 400: đầu vào không hợp lệ; 404: không có tài nguyên; 500: lỗi xử lý.
+Lỗi API dùng `{ "error": { "code": "...", "message": "..." } }`, gồm cả đường dẫn `/api` hoặc `/api/...` không tồn tại.
+
+| HTTP | Code | Ý nghĩa |
+|---|---|---|
+| 400 | VALIDATION_ERROR | Body thiếu/sai cấu trúc, JSON sai cú pháp hoặc dữ liệu nghiệp vụ không hợp lệ |
+| 404 | NOT_FOUND | Sân/cơ sở hoặc API không tồn tại |
+| 413 | PAYLOAD_TOO_LARGE | Body vượt giới hạn 20 KB |
+| 500 | INTERNAL_ERROR | Lỗi xử lý ngoài dự kiến |
+
+Request báo giá được kiểm tra cấu trúc trước khi tìm sân. `courtId` và `date` là chuỗi, `times` là mảng ô giờ, `guest` có tên/SĐT hợp lệ. Request hợp lệ có sân không tồn tại trả 404; request sai cấu trúc trả 400. Form HTML được chuẩn hóa để chọn một ô vẫn hợp lệ. Backend tiếp tục bỏ qua giá khách gửi và tính giá từ dữ liệu sân.
 
 ## Dự kiến – chưa triển khai
 
