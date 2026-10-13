@@ -66,6 +66,34 @@ docs/                  Tài liệu
 
 Các file Word và sơ đồ cũ trong `docs/` chưa được sửa theo phương án mới. Chúng vẫn có nội dung về duyệt đơn và phương án nhóm cũ; dùng tài liệu prototype trên làm căn cứ cho code hiện tại.
 
+## Giao task cho AI
+
+Gửi link repo chưa đảm bảo AI đọc được code. Với công cụ có quyền đọc GitHub hoặc workspace, yêu cầu mở/clone repo. Nếu công cụ không có quyền truy cập, cung cấp các tài liệu bên dưới và file liên quan đến task.
+
+Repo có [AGENTS.md](AGENTS.md) để AI tiếp nhận quy tắc hiện hành. Một số công cụ tự đọc file này; các công cụ khác cần được nhắc rõ. Không yêu cầu AI viết lại toàn bộ dự án trong một lần.
+
+Mẫu prompt cho từng thành viên:
+
+```text
+Bạn hỗ trợ dự án này:
+https://github.com/indominusrex932005-arch/Quan-ly-dat-san-the-thao
+
+Trước khi sửa code, đọc AGENTS.md, README.md, CONTRIBUTING.md,
+docs/QUY_TAC_PROTOTYPE.md, docs/API.md và code liên quan.
+Phân biệt chức năng đang chạy với chức năng chưa triển khai.
+
+Task của tôi: [ghi một task cụ thể].
+Phạm vi: [các trang hoặc module cần làm].
+Tiêu chí đạt: [các thao tác và kết quả kiểm tra mong muốn].
+
+Giữ JavaScript/Express/EJS/Bootstrap/Mongoose và quy tắc hiện hành.
+Làm trên nhánh feat/[ten-task]. Chạy kiểm tra phù hợp, gồm npm run check
+và npm test nếu sửa code. Báo file đã sửa, kết quả và phần còn thiếu.
+Nếu không đọc được repo, nói rõ để tôi cung cấp file; không đoán code.
+```
+
+Nhóm trưởng giao phạm vi riêng cho mỗi người, sau đó xem diff và demo trong Pull Request trước khi merge. Việc AI đọc tài liệu không thay thế kiểm tra kết quả.
+
 ## Triển khai sau
 
 Ứng dụng Express/EJS chạy chung một máy chủ. Trên Render, lệnh cài là `npm ci`, lệnh chạy là `npm start`; đặt `NODE_ENV=production`, `DEMO_MODE=false` và cấu hình database/session riêng. Chưa triển khai website công khai; chưa tích hợp MB Bank. Hoàn thiện chức năng trước khi dùng với khách và tiền thật.
