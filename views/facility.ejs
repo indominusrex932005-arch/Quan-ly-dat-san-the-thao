@@ -1,0 +1,14 @@
+<%- include('partials/header') %>
+<a href="/">← Chọn cơ sở khác</a>
+<h1 class="h3 mt-3"><%= facility.name %></h1><p><%= facility.address %></p>
+<div class="row g-3">
+  <% for (const court of courts) { %>
+    <div class="col-md-6"><article class="card"><div class="card-body">
+      <h2 class="h5"><%= court.name %></h2>
+      <p><%= court.sportType === 'BADMINTON' ? 'Cầu lông' : 'Pickleball' %> · <%= court.openTime %>–<%= court.closeTime %></p>
+      <p>Từ <%= currency(court.basePriceVND) %>/30 phút</p>
+      <a class="btn btn-primary" href="/courts/<%= court._id %>">Chọn ngày và giờ</a>
+    </div></article></div>
+  <% } %>
+</div>
+<%- include('partials/footer') %>

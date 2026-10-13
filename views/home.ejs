@@ -1,0 +1,13 @@
+<%- include('partials/header') %>
+<h1 class="h3">Chọn cơ sở</h1>
+<p>Chọn cơ sở, sau đó chọn sân và ngày chơi. Khách không cần tài khoản.</p>
+<div class="row g-3">
+  <% for (const facility of facilities) { %>
+    <div class="col-md-6"><article class="card h-100"><div class="card-body">
+      <h2 class="h5"><%= facility.name %></h2><p><%= facility.address %></p>
+      <a class="btn btn-primary" href="/facilities/<%= facility._id %>">Xem sân</a>
+    </div></article></div>
+  <% } %>
+</div>
+<% if (!facilities.length) { %><p>Chưa có cơ sở. Chủ sân cần cập nhật dữ liệu.</p><% } %>
+<%- include('partials/footer') %>

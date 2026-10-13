@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Đặt sân thể thao – Nhóm 5</title>
+  <link rel="stylesheet" href="/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/css/app.css">
+  <script src="/assets/js/booking.js" defer></script>
+</head>
+<body>
+  <nav class="navbar border-bottom bg-white">
+    <div class="container"><a class="navbar-brand fw-bold" href="/">Đặt sân thể thao</a><a href="/owner/login">Chủ sân đăng nhập</a></div>
+  </nav>
+  <main class="container py-4">
+    <div class="alert alert-warning" role="status">
+      Bản khởi đầu <%= demo ? 'dùng dữ liệu mẫu' : 'đọc dữ liệu MongoDB' %>.
+      Chưa tạo đơn, giữ chỗ hoặc nhận tiền thật.
+    </div>

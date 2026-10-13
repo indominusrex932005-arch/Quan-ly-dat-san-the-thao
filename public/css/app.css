@@ -1,0 +1,17 @@
+body { background: #f5f6f8; color: #243047; }
+.card { border-color: #d9dfe7; }
+.legend { display: flex; flex-wrap: wrap; gap: 1rem; }
+.slot-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); gap: .65rem; }
+.slot { position: relative; cursor: pointer; }
+.slot input { position: absolute; opacity: 0; }
+.slot-content { display: flex; flex-direction: column; gap: .25rem; padding: .85rem .5rem; border: 1px solid #aab6c6; border-radius: .5rem; background: white; text-align: center; }
+.slot.booked .slot-content { background: #d7e8ff; border-color: #487dbc; }
+.slot.locked .slot-content { background: #fff0c9; border-color: #bb8624; }
+.slot.unavailable .slot-content { background: #e5e7eb; color: #60656e; }
+.slot:has(input:disabled) { cursor: not-allowed; }
+.slot input:checked + .slot-content { background: #ebe0ff; border-color: #7548b8; }
+.slot input:focus-visible + .slot-content { outline: 3px solid #7548b8; outline-offset: 2px; }
+.selected-label { color: #7548b8; }
+.guest-dialog { width: min(440px, calc(100% - 2rem)); padding: 1.5rem; border: 1px solid #d9dfe7; border-radius: .75rem; }
+.guest-dialog::backdrop { background: #15213888; }
+.login-card { max-width: 480px; }
