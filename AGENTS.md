@@ -1,6 +1,6 @@
 # Hướng dẫn tiếp nhận dự án
 
-Dự án quản lý đặt sân thể thao cho môn System và Advanced Web, nhóm 4 người. Đọc hướng dẫn này trước khi sửa code. Repo hiện là bộ khởi đầu, chưa phải hệ thống đặt sân hoàn chỉnh. Nhóm trưởng xác nhận còn 3 tuần là nộp final; không diễn giải thời hạn này thành một mốc chỉ nộp prototype. Đọc `docs/KE_HOACH_3_TUAN.md` để biết mục tiêu bản hoàn chỉnh. Ngày nộp cụ thể chưa được cung cấp.
+Dự án quản lý đặt sân thể thao. Đọc hướng dẫn này trước khi sửa code. Repo hiện là bộ khởi đầu, chưa phải hệ thống đặt sân hoàn chỉnh. Nhóm trưởng xác nhận còn 3 tuần là nộp final; không diễn giải thời hạn này thành một mốc chỉ nộp prototype. Đọc `docs/KE_HOACH_3_TUAN.md` để biết mục tiêu bản hoàn chỉnh. Ngày nộp cụ thể chưa được cung cấp.
 
 ## Thứ tự đọc
 
@@ -10,7 +10,7 @@ Dự án quản lý đặt sân thể thao cho môn System và Advanced Web, nh�
 4. `CONTRIBUTING.md`: nhánh task, Pull Request và kiểm tra.
 5. `docs/CONG_VIEC_TIEP_THEO.md`, sau đó code/test liên quan đến task.
 
-File Word và hình cũ trong `docs/` chưa cập nhật theo phương án hiện tại. Khi có mâu thuẫn, dùng tài liệu Markdown hiện hành và yêu cầu mới nhất của nhóm trưởng. Không khôi phục bước quản lý duyệt đơn chỉ vì thấy trong tài liệu cũ.
+Dùng tài liệu Markdown hiện hành và yêu cầu mới nhất của nhóm trưởng làm căn cứ. File Word và sơ đồ nộp final cần được làm theo nghiệp vụ hiện hành và chức năng đã hoàn thành; hiện chưa có bản cập nhật trong repo.
 
 ## Công nghệ hiện tại
 

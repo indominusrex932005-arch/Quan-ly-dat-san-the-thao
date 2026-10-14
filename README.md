@@ -1,6 +1,6 @@
-# Hệ thống quản lý đặt sân thể thao – Nhóm 5
+# Hệ thống quản lý đặt sân thể thao
 
-Dự án cho môn System và Advanced Web. Nhóm có 4 thành viên, còn 3 tuần để hoàn thành và nộp bản final. Bản hiện tại là bộ khởi đầu để phát triển chung, chưa phải hệ thống đặt sân hoàn chỉnh. Dữ liệu mẫu phục vụ phát triển; mục tiêu bản nộp là các chức năng đã thống nhất chạy với dữ liệu lưu thật.
+Thời hạn hiện tại còn 3 tuần để hoàn thành và nộp bản final. Bản hiện tại là bộ khởi đầu để phát triển chung, chưa phải hệ thống đặt sân hoàn chỉnh. Dữ liệu mẫu phục vụ phát triển; mục tiêu bản nộp là các chức năng đã thống nhất chạy với dữ liệu lưu thật.
 
 ## Công nghệ
 
@@ -65,7 +65,7 @@ docs/                  Tài liệu
 - [Các bước phát triển tiếp](docs/CONG_VIEC_TIEP_THEO.md)
 - [Kế hoạch hoàn thành bản final trong 3 tuần](docs/KE_HOACH_3_TUAN.md)
 
-Các file Word và sơ đồ cũ trong `docs/` chưa được sửa theo phương án mới. Chúng vẫn có nội dung về duyệt đơn và phương án nhóm cũ; dùng tài liệu nghiệp vụ hiện hành trên làm căn cứ cho code và cập nhật tài liệu nộp trước hạn final.
+Dùng các tài liệu Markdown trên làm căn cứ cho code. File Word và sơ đồ nộp final cần được làm theo nghiệp vụ hiện hành và chức năng đã hoàn thành; hiện chưa có bản cập nhật trong repo.
 
 ## Giao task cho AI
 

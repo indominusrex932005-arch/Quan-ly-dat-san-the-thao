@@ -2,7 +2,7 @@
 
 Mục tiêu là nộp bản final sau 3 tuần, theo `KE_HOACH_3_TUAN.md`. Không coi đây là một hạn chỉ hoàn thành prototype.
 
-1. Chủ repo mời 3 thành viên và bật Ruleset khi workflow Verify chạy được.
+1. Chủ repo mời người tham gia và bật Ruleset khi workflow Verify chạy được.
 2. Nhóm thống nhất tên trường, trạng thái và API trong tài liệu; chốt chi tiết nghiệp vụ còn mở. Xác minh/chọn kết nối MB trong tuần đầu để kịp tích hợp. Dữ liệu mẫu có nhãn được dùng khi phát triển.
 3. Kết nối MongoDB dùng cho phát triển. Kiểm tra seed và đọc dữ liệu; dùng replica set/Atlas để hỗ trợ transaction.
 4. Tạo tài khoản chủ sân, đăng nhập/session, logout, chống CSRF và giới hạn dữ liệu theo cơ sở.

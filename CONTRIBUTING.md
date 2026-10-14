@@ -2,7 +2,7 @@
 
 ## Bắt đầu
 
-Nhóm trưởng mời 3 thành viên trong Settings → Collaborators → Add people. Mỗi người chấp nhận lời mời trước khi push nhánh của mình.
+Chủ repo mời người tham gia trong Settings → Collaborators → Add people. Mỗi người chấp nhận lời mời trước khi push nhánh của mình.
 
 ```sh
 git clone https://github.com/indominusrex932005-arch/Quan-ly-dat-san-the-thao.git

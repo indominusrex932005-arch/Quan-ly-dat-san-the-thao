@@ -6,7 +6,7 @@ Mục tiêu: website có các chức năng đã thống nhất, dữ liệu lưu
 
 ## Tuần 1 – hoàn thành nền tảng và đặt sân
 
-- Mời 3 thành viên, bật Ruleset cho main; kiểm tra PR lỗi bị chặn.
+- Mời người tham gia, bật Ruleset cho main; kiểm tra PR lỗi bị chặn.
 - Tất cả clone và chạy bộ khởi đầu, giao task qua Issues và bàn giao qua PR.
 - Kết nối MongoDB phát triển dùng replica set/Atlas; kiểm tra seed và đọc dữ liệu.
 - Hoàn thành đăng nhập chủ sân, giới hạn dữ liệu theo cơ sở và cập nhật sân/giá.
