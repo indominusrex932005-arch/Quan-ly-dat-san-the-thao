@@ -1,14 +1,29 @@
 <%- include('partials/header') %>
-<a href="/">← Chọn cơ sở khác</a>
-<h1 class="h3 mt-3"><%= facility.name %></h1><p><%= facility.address %></p>
-<div class="row g-3">
-  <% for (const court of courts) { %>
-    <div class="col-md-6"><article class="card"><div class="card-body">
-      <h2 class="h5"><%= court.name %></h2>
-      <p><%= court.sportType === 'BADMINTON' ? 'Cầu lông' : 'Pickleball' %> · <%= court.openTime %>–<%= court.closeTime %></p>
-      <p>Từ <%= currency(court.basePriceVND) %>/30 phút</p>
-      <a class="btn btn-primary" href="/courts/<%= court._id %>">Chọn ngày và giờ</a>
-    </div></article></div>
+<a class="back-link" href="/#co-so"><span aria-hidden="true">←</span> Chọn cơ sở khác</a>
+<div class="page-heading">
+  <div><p class="eyebrow">CHỌN SÂN</p><h1><%= facility.name %></h1><p class="address-line"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M15.5 8c0 4-5.5 9-5.5 9S4.5 12 4.5 8a5.5 5.5 0 1 1 11 0Z"/><circle cx="10" cy="8" r="1.7"/></svg><span><%= facility.address %></span></p></div>
+  <span class="status-pill"><%= courts.length %> sân</span>
+</div>
+<p class="section-intro">Chọn một sân để xem lịch và các ô giờ trong ngày bạn muốn chơi.</p>
+<div class="row g-4">
+  <% for (const [index, court] of courts.entries()) { %>
+    <div class="col-md-6">
+      <article class="court-card h-100">
+        <div class="court-card-top">
+          <div class="court-tile" aria-hidden="true"><svg viewBox="0 0 110 84" fill="none"><rect x="12" y="10" width="86" height="64" stroke="currentColor" stroke-width="2"/><path d="M12 42h86M21 10v64m68-64v64M12 24h86M12 60h86m-43-50v14m0 36v14" stroke="currentColor" stroke-width="1.3"/></svg></div>
+          <span class="court-number">SÂN <%= String(index + 1).padStart(2, '0') %></span>
+          <span class="sport-label"><%= court.sportType === 'BADMINTON' ? 'Cầu lông' : 'Pickleball' %></span>
+        </div>
+        <div class="court-card-body">
+          <h2><%= court.name %></h2>
+          <p class="court-hours">Mở cửa <strong><%= court.openTime %>–<%= court.closeTime %></strong></p>
+          <div class="court-price"><span>Giá từ</span><strong><%= currency(court.basePriceVND) %><small> / 30 phút</small></strong></div>
+          <a class="btn btn-primary w-100" href="/courts/<%= court._id %>">Chọn ngày và giờ <span aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    </div>
   <% } %>
 </div>
+<% if (!courts.length) { %><div class="panel empty-state"><h2>Chưa có sân để chọn</h2><p>Cơ sở này chưa cập nhật sân. Bạn có thể chọn cơ sở khác.</p><a class="btn btn-outline-primary" href="/#co-so">Xem cơ sở khác</a></div><% } %>
+<div class="booking-tip"><span class="tip-symbol" aria-hidden="true">i</span><p>Mỗi ô là 30 phút. Bạn có thể chọn một hoặc nhiều ô rời nhau trên cùng sân và ngày.</p></div>
 <%- include('partials/footer') %>

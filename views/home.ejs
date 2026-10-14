@@ -1,13 +1,57 @@
 <%- include('partials/header') %>
-<h1 class="h3">Chọn cơ sở</h1>
-<p>Chọn cơ sở, sau đó chọn sân và ngày chơi. Khách không cần tài khoản.</p>
-<div class="row g-3">
-  <% for (const facility of facilities) { %>
-    <div class="col-md-6"><article class="card h-100"><div class="card-body">
-      <h2 class="h5"><%= facility.name %></h2><p><%= facility.address %></p>
-      <a class="btn btn-primary" href="/facilities/<%= facility._id %>">Xem sân</a>
-    </div></article></div>
-  <% } %>
-</div>
-<% if (!facilities.length) { %><p>Chưa có cơ sở. Chủ sân cần cập nhật dữ liệu.</p><% } %>
+<section class="home-hero" aria-labelledby="home-title">
+  <div class="hero-copy">
+    <p class="eyebrow">HẸN NHAU RA SÂN</p>
+    <h1 id="home-title">Chọn giờ đẹp.<br>Ra sân thôi.</h1>
+    <p class="hero-description">Tìm sân cầu lông, chọn giờ phù hợp và xem thông tin đặt sân. Khách không cần tạo tài khoản.</p>
+    <a class="btn btn-primary btn-lg" href="#co-so">Chọn sân ngay <span aria-hidden="true">→</span></a>
+    <p class="hero-hint">Linh hoạt từng ô 30 phút · Chọn nhiều ô theo ý bạn</p>
+  </div>
+  <div class="hero-art" aria-hidden="true">
+    <span class="art-tag">CẦU LÔNG</span>
+    <svg class="hero-court" viewBox="0 0 440 310" fill="none">
+      <rect x="44" y="31" width="352" height="240" rx="9" fill="#315b49"/>
+      <rect x="63" y="48" width="314" height="205" stroke="#d8e7cc" stroke-width="2.5"/>
+      <path d="M63 150.5h314M82 48v205m276-205v205M63 82h314M63 219h314m-157-171v34m0 137v34" stroke="#d8e7cc" stroke-width="2"/>
+      <path d="M44 149.5h352" stroke="#fff" stroke-width="3" stroke-dasharray="5 5"/>
+      <circle cx="43" cy="150" r="5" fill="#d1ec87"/><circle cx="397" cy="150" r="5" fill="#d1ec87"/>
+      <ellipse cx="280" cy="202" rx="13" ry="21" transform="rotate(-36 280 202)" fill="#d1ec87" stroke="#14352e" stroke-width="3"/>
+      <path d="m289 219 15 21m-39-43 30 17m-31-29 31 18m-18-20-3 33m12-27-2 32" stroke="#14352e" stroke-width="2.5"/>
+      <path d="m152 96 19 8 5-23-18-5-6 20Z" fill="#fcfaf2"/><path d="m159 77-1 20m9-18-6 19m14-16-10 18" stroke="#9caa98" stroke-width="1.5"/>
+      <circle cx="158" cy="102" r="5" fill="#d1ec87"/>
+    </svg>
+    <div class="art-caption"><span class="art-caption-dot"></span> Một buổi chơi, một lựa chọn dễ dàng.</div>
+  </div>
+</section>
+<section id="co-so" class="facilities-section" aria-labelledby="facilities-title">
+  <div class="section-heading">
+    <div><p class="eyebrow">BẮT ĐẦU TỪ ĐÂY</p><h2 id="facilities-title">Chọn cơ sở bạn muốn chơi</h2></div>
+    <span class="section-count"><%= facilities.length %> cơ sở<%= demo ? ' mẫu' : '' %></span>
+  </div>
+  <div class="row g-4">
+    <% for (const [index, facility] of facilities.entries()) { %>
+      <div class="col-md-6">
+        <article class="facility-card h-100">
+          <div class="facility-visual <%= index % 2 ? 'alternate' : '' %>" aria-hidden="true">
+            <span class="visual-label">CƠ SỞ <%= String(index + 1).padStart(2, '0') %></span>
+            <svg viewBox="0 0 340 130" fill="none"><rect x="58" y="17" width="224" height="95" rx="3" stroke="currentColor" stroke-width="2"/><path d="M58 64.5h224M75 17v95m190-95v95M58 39h224M58 90h224m-112-73v22m0 51v22" stroke="currentColor" stroke-width="1.5"/><path d="M45 64.5h250" stroke="currentColor" stroke-width="2" stroke-dasharray="4 4"/></svg>
+            <span class="visual-sport">Cầu lông</span>
+          </div>
+          <div class="facility-card-body">
+            <h3><%= facility.name %></h3>
+            <p class="address-line"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M15.5 8c0 4-5.5 9-5.5 9S4.5 12 4.5 8a5.5 5.5 0 1 1 11 0Z"/><circle cx="10" cy="8" r="1.7"/></svg><span><%= facility.address %></span></p>
+            <a class="btn btn-outline-primary w-100" href="/facilities/<%= facility._id %>">Xem sân và lịch trống <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+      </div>
+    <% } %>
+  </div>
+  <% if (!facilities.length) { %><div class="panel empty-state"><h3>Chưa có cơ sở</h3><p>Chủ sân cần cập nhật dữ liệu để hiển thị sân tại đây.</p></div><% } %>
+  <% if (demo) { %><p class="sample-caption">Các cơ sở trên dùng dữ liệu mẫu, không phải sân đang nhận đặt thật.</p><% } %>
+</section>
+<section class="how-it-works" aria-label="Các bước đặt sân">
+  <div><span class="step-number">01</span><h3>Chọn sân và giờ</h3><p>Chọn các ô 30 phút phù hợp.</p></div>
+  <div><span class="step-number">02</span><h3>Kiểm tra và thanh toán</h3><p>Xem lại thông tin, giá và mã thanh toán.</p></div>
+  <div><span class="step-number">03</span><h3>Mang phiếu đến sân</h3><p>Lưu phiếu đặt sân để chủ sân tra mã khi đến.</p></div>
+</section>
 <%- include('partials/footer') %>

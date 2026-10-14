@@ -3,17 +3,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173f35">
   <title>Đặt sân thể thao</title>
   <link rel="stylesheet" href="/vendor/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="/assets/css/app.css">
   <script src="/assets/js/booking.js" defer></script>
 </head>
 <body>
-  <nav class="navbar border-bottom bg-white">
-    <div class="container"><a class="navbar-brand fw-bold" href="/">Đặt sân thể thao</a><a href="/owner/login">Chủ sân đăng nhập</a></div>
-  </nav>
-  <main class="container py-4">
-    <div class="alert alert-warning" role="status">
-      Bản khởi đầu <%= demo ? 'dùng dữ liệu mẫu' : 'đọc dữ liệu MongoDB' %>.
-      Chưa tạo đơn, giữ chỗ hoặc nhận tiền thật.
+  <a class="skip-link" href="#main-content">Đến nội dung chính</a>
+  <header class="site-header">
+    <nav class="container site-nav" aria-label="Điều hướng chính">
+      <a class="brand" href="/" aria-label="Đặt sân thể thao – trang chủ">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><ellipse cx="18" cy="12" rx="7" ry="9" transform="rotate(35 18 12)" stroke="currentColor" stroke-width="2"/><path d="m13 19-8 10m6-20 13 9m-9-14 10 7m-11 4 7-12m-3 17 9-12" stroke="currentColor" stroke-width="1.5"/></svg></span>
+        <span>Đặt sân<span class="brand-subtitle">THỂ THAO</span></span>
+      </a>
+      <div class="nav-links">
+        <a class="nav-find" href="/#co-so">Tìm sân</a>
+        <a class="owner-link" href="<%= demo ? '/demo/owner' : '/owner/login' %>"><%= demo ? 'Xem quản lý mẫu' : 'Chủ sân đăng nhập' %><span aria-hidden="true"> →</span></a>
+      </div>
+    </nav>
+  </header>
+  <main id="main-content" class="container page-main">
+    <div class="demo-note" role="status">
+      <span class="demo-dot" aria-hidden="true"></span>
+      <span><%= demo ? 'Dữ liệu mẫu · Không giữ sân hoặc nhận tiền thật' : 'Đọc dữ liệu MongoDB · Chức năng đặt sân và thanh toán chưa hoàn thiện' %></span>
     </div>

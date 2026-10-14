@@ -1,20 +1,44 @@
 <%- include('partials/header') %>
-<h1 class="h3">Xác nhận thông tin</h1>
-<div class="card"><div class="card-body">
-  <dl class="row">
-    <dt class="col-sm-3">Người chơi</dt><dd class="col-sm-9"><%= guest.name %></dd>
-    <dt class="col-sm-3">Số điện thoại</dt><dd class="col-sm-9"><%= guest.phone %></dd>
-    <dt class="col-sm-3">Sân</dt><dd class="col-sm-9"><%= court.name %> – <%= facility.name %></dd>
-    <dt class="col-sm-3">Địa chỉ</dt><dd class="col-sm-9"><%= facility.address %></dd>
-    <dt class="col-sm-3">Ngày</dt><dd class="col-sm-9"><%= date %></dd>
-    <dt class="col-sm-3">Các ô đã chọn</dt><dd class="col-sm-9"><ul class="mb-0">
-      <% for (const slot of quote.slots) { %><li><%= slot.time %>–<%= slot.endTime %>: <%= currency(slot.priceVND) %></li><% } %>
-    </ul></dd>
-    <dt class="col-sm-3">Thời lượng</dt><dd class="col-sm-9"><%= quote.totalMinutes %> phút</dd>
-    <dt class="col-sm-3">Tổng tiền</dt><dd class="col-sm-9 fw-bold"><%= currency(quote.totalPriceVND) %></dd>
-  </dl>
-  <p class="text-secondary">Bản khởi đầu chỉ báo giá, chưa lưu đơn hoặc giữ chỗ. Trang QR sẽ được nối khi xây xử lý đặt sân và thanh toán.</p>
-  <a class="btn btn-outline-secondary" href="/courts/<%= court._id %>?date=<%= date %>">Chọn lại</a>
-  <button class="btn btn-primary" disabled>Thanh toán – chưa kết nối</button>
-</div></div>
+<nav aria-label="Các bước đặt sân" class="flow-steps">
+  <span>1. Chọn sân &amp; giờ</span><strong aria-current="step">2. Xác nhận</strong><span>3. Thanh toán</span><span>4. Phiếu đặt sân</span>
+</nav>
+<div class="page-heading">
+  <div>
+  <p class="eyebrow">Kiểm tra trước khi tiếp tục</p><h1>Xác nhận thông tin</h1>
+  <p class="text-secondary">Đúng sân, đúng giờ. Bạn kiểm tra lại thông tin người chơi bên dưới nhé.</p>
+  </div>
+</div>
+<div class="checkout-layout">
+  <section class="panel" aria-labelledby="booking-details-title">
+    <h2 id="booking-details-title" class="h4 mb-4">Thông tin đặt sân</h2>
+    <dl class="detail-list">
+      <div class="detail-item"><dt>Người chơi</dt><dd><%= guest.name %></dd></div>
+      <div class="detail-item"><dt>Số điện thoại</dt><dd><%= guest.phone %></dd></div>
+      <div class="detail-item"><dt>Sân</dt><dd><%= court.name %></dd></div>
+      <div class="detail-item"><dt>Cơ sở</dt><dd><%= facility.name %></dd></div>
+      <div class="detail-item"><dt>Địa chỉ</dt><dd><%= facility.address %></dd></div>
+      <div class="detail-item"><dt>Ngày chơi</dt><dd><%= date.split('-').reverse().join('/') %></dd></div>
+    </dl>
+    <a class="btn btn-outline-secondary mt-3" href="/courts/<%= court._id %>?date=<%= date %>">← Chọn lại sân &amp; giờ</a>
+  </section>
+  <aside class="summary-card" aria-labelledby="quote-summary-title">
+    <p class="eyebrow">Lịch của bạn</p><h2 id="quote-summary-title" class="h4"><%= quote.totalMinutes %> phút trên sân</h2>
+    <ul class="slot-summary list-unstyled my-4">
+      <% for (const slot of quote.slots) { %><li class="slot-summary-row"><span><%= slot.time %>–<%= slot.endTime %></span><strong><%= currency(slot.priceVND) %></strong></li><% } %>
+    </ul>
+    <div class="price-total"><span>Tổng thanh toán</span><strong><%= currency(quote.totalPriceVND) %></strong></div>
+    <% if (demo) { %>
+      <form action="/demo/checkout" method="post" class="mt-4">
+        <input type="hidden" name="courtId" value="<%= court._id %>"><input type="hidden" name="date" value="<%= date %>">
+        <input type="hidden" name="name" value="<%= guest.name %>"><input type="hidden" name="phone" value="<%= guest.phone %>">
+        <% for (const slot of quote.slots) { %><input type="hidden" name="times" value="<%= slot.time %>"><% } %>
+        <button class="btn btn-primary w-100" type="submit">Thanh toán · Xem giao diện mẫu →</button>
+      </form>
+      <p class="demo-note mt-3 mb-0">Đây là luồng thử giao diện. Chưa giữ chỗ thật và chưa nhận tiền.</p>
+    <% } else { %>
+      <button class="btn btn-primary w-100 mt-4" disabled>Thanh toán · Chưa kết nối</button>
+      <p class="demo-note mt-3 mb-0">Báo giá chưa tạo đơn hoặc giữ ô. Chức năng thanh toán đang được xây dựng.</p>
+    <% } %>
+  </aside>
+</div>
 <%- include('partials/footer') %>

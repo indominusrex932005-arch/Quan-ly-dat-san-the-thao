@@ -6,12 +6,14 @@ import { ZodError } from 'zod';
 import { createCatalog } from './services/catalog.js';
 import { makeSlots, quoteSelection, vietnamDate, RuleError } from './domain/booking-rules.js';
 import { quoteRequestSchema } from './domain/validation.js';
+import { createDemoPreviews } from './services/demo-previews.js';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 export function createApp({ demo = true, clock = () => new Date(), databaseReady = () => false } = {}) {
   const app = express();
   const catalog = createCatalog(demo);
+  const previews = demo ? createDemoPreviews(clock) : null;
   app.disable('x-powered-by');
   app.use(helmet());
   // Trang lỗi vẫn cần các biến này khi parser dừng request trước khi vào route.
@@ -55,6 +57,39 @@ export function createApp({ demo = true, clock = () => new Date(), databaseReady
     res.render('quote', { guest: input.guest, court, facility: await catalog.facility(String(court.facilityId)), date: input.date, quote });
   });
   app.get('/owner/login', (_req, res) => res.render('owner-login'));
+
+  // Các màn hình thử tách riêng; hoàn toàn không tồn tại ở chế độ MongoDB.
+  app.use('/demo', (_req, res, next) => {
+    if (!demo) return res.status(404).render('error', { message: 'Trang thử giao diện không khả dụng.' });
+    next();
+  });
+  app.post('/demo/checkout', async (req, res) => {
+    const body = req.body ?? {};
+    const times = body.times === undefined ? [] : Array.isArray(body.times) ? body.times : [body.times];
+    const input = quoteRequestSchema.parse({ courtId: body.courtId, date: body.date, times,
+      guest: { name: body.name, phone: body.phone } });
+    const court = await catalog.court(input.courtId);
+    if (!court) return res.status(404).render('error', { message: 'Không tìm thấy sân.' });
+    const quote = quoteSelection(court, input.date, input.times, await catalog.locks(court._id, input.date, clock()), clock());
+    const preview = previews.create({ guest: input.guest, court, date: input.date, quote,
+      facility: await catalog.facility(String(court.facilityId)) });
+    res.redirect(303, '/demo/payment/' + preview.token);
+  });
+  app.get('/demo/payment/:token', (req, res) => {
+    const preview = previews.get(req.params.token);
+    if (preview.confirmedAt) return res.redirect(303, '/demo/receipt/' + preview.token);
+    res.status(preview.expired ? 410 : 200).render('demo-payment', { preview });
+  });
+  app.post('/demo/confirm/:token', (req, res) => {
+    const preview = previews.confirm(req.params.token);
+    res.redirect(303, '/demo/receipt/' + preview.token);
+  });
+  app.get('/demo/receipt/:token', (req, res) => res.render('demo-receipt', { preview: previews.receipt(req.params.token) }));
+  app.get('/demo/owner', async (req, res) => {
+    const facilities = await catalog.facilities();
+    const facility = facilities.find(item => item._id === req.query.facilityId) || facilities[0];
+    res.render('demo-owner', { facility, facilities, previews: previews.list(String(facility._id)), date: vietnamDate(clock()) });
+  });
 
   app.get('/api/facilities', async (_req, res) => res.json({ demo, data: await catalog.facilities() }));
   app.get('/api/facilities/:id/courts', async (req, res) => {

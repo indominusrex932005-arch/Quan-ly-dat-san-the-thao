@@ -2,7 +2,9 @@
 
 ## Bắt đầu
 
-Chủ repo mời người tham gia trong Settings → Collaborators → Add people. Mỗi người chấp nhận lời mời trước khi push nhánh của mình.
+Chủ repo mời người tham gia trong Settings → Collaborators → Add people. Mỗi người chấp nhận lời mời trước khi push nhánh.
+
+Cài Node.js 24, sau đó chạy:
 
 ```sh
 git clone https://github.com/indominusrex932005-arch/Quan-ly-dat-san-the-thao.git
@@ -22,36 +24,50 @@ git commit -m "feat: mo ta thay doi"
 git push -u origin feat/ten-task
 ```
 
-Mở Pull Request từ nhánh task vào `main`, ghi cách kiểm tra và phần còn thiếu. Nhóm trưởng review rồi merge. Trước task tiếp theo, cập nhật `main` và tạo nhánh mới.
+Mở PR từ nhánh task vào `main`, ghi cách kiểm tra và phần còn thiếu. Nhóm trưởng xem diff, kiểm tra rồi approve/merge. Mỗi PR nên có một mục tiêu nhỏ, khoảng một hoặc hai màn hình nếu làm UI.
 
-Không sửa tên trường, trạng thái đơn hoặc định dạng API mà chưa thống nhất với nhóm. Dữ liệu mẫu phải ghi rõ là giả; thông tin khảo sát phải có nguồn.
+Trước task tiếp theo, commit hoặc stash các thay đổi đang làm rồi cập nhật:
 
-## Bật bảo vệ main bằng GitHub
+```sh
+git switch main
+git pull --ff-only origin main
+git switch -c feat/ten-task-tiep-theo
+```
 
-Workflow `Verify` được khai báo trong repo. Sau khi nó chạy thành công trên GitHub:
+Không sửa tên trường, trạng thái hoặc API mà chưa thống nhất. Dữ liệu mẫu ghi rõ là giả; thông tin khảo sát có nguồn. UI giữ hợp đồng API, không tự xác nhận thanh toán hay tự quyết định ô đã booked.
 
-1. Settings → Rules → Rulesets → New branch ruleset; đặt tên `Protect main`.
-2. Chọn trạng thái Active. Trong Target branches, chọn Include default branch hoặc Include by pattern và nhập `main`.
-3. Bật Require a pull request before merging; đặt tối thiểu 1 approval.
-4. Bật Require status checks to pass; Add checks và chọn check `Code and tests` do workflow Verify tạo. Bật Require branches to be up to date before merging.
-5. Bật Block force pushes và Restrict deletions.
-6. Nên bật Require review from Code Owners; nhóm trưởng đã được khai báo trong CODEOWNERS. Bật Dismiss stale pull request approvals when new commits are pushed để code sửa tiếp phải được review lại.
-7. Bật Require conversation resolution before merging. Giữ danh sách bypass trống khi thiết lập cho nhóm, rồi bấm Create/Save.
+## Bảo vệ main bằng GitHub
 
-Nhóm trưởng mở PR của mình vẫn cần một thành viên khác review nếu bật 1 approval. CODEOWNERS không tự bật bảo vệ nhánh. Việc có file workflow cũng không tự chặn merge nếu Ruleset chưa được bật.
+Đây là cấu hình được lựa chọn cho cách làm hiện tại; tài liệu không tự sửa thiết lập GitHub. Workflow `Verify` có check `Code and tests`. Trong Settings → Rules → Rulesets, tạo/sửa `Protect main`:
 
-Thiết lập thành viên, Ruleset và triển khai thuộc GitHub/nhà cung cấp; chưa được thay đổi tự động bởi bộ code này.
+1. Enforcement **Active**; Target chọn default branch hiện là `main` hoặc pattern `main`.
+2. Bật **Require a pull request before merging**, đặt **Required approvals = 0**.
+3. Giữ **Require review from Code Owners**. `.github/CODEOWNERS` hiện chỉ định chủ repo cho mọi file: PR của thành viên cần chủ repo duyệt; PR do chính Code Owner tạo đáp ứng điều kiện sở hữu đó mà không cần người khác duyệt.
+4. Bật **Dismiss stale pull request approvals when new commits are pushed**, để thay đổi mới cần được xem lại. Giữ **Require approval of the most recent reviewable push** tắt.
+5. Bật **Require status checks to pass**, thêm **Code and tests** nguồn GitHub Actions. Bật **Require branches to be up to date before merging**.
+6. Bật **Block force pushes**, **Restrict deletions**, **Require conversation resolution before merging**. Giữ danh sách bypass trống và lưu.
+
+Số approvals bằng 0 không bỏ yêu cầu Code Owners đang bật. Cả PR của chủ repo và thành viên vẫn cần check bắt buộc xanh. Nếu đổi CODEOWNERS, cần kiểm tra lại người đủ điều kiện duyệt. Có file workflow/CODEOWNERS không tự bật bảo vệ nhánh; phải lưu Ruleset trên GitHub.
 
 ## Kiểm tra Ruleset đã hoạt động
 
-Trong một nhánh thử, tạo Pull Request có một lỗi JavaScript rõ ràng. Check phải đỏ và merge phải bị chặn. Đóng PR thử và xóa nhánh sau khi kiểm tra; không ghép thay đổi thử vào main. Với PR hợp lệ, check xanh nhưng chưa có approval thì merge vẫn phải bị chặn.
+Trên PR hợp lệ, kiểm tra `Code and tests` xuất hiện là bắt buộc. PR của thành viên chưa được Code Owner duyệt phải bị chặn; PR của chủ repo không nên bị chặn chỉ vì thiếu người khác approve. Nếu còn chặn, xem lý do GitHub hiển thị và kiểm tra các quy tắc đang áp dụng.
 
-## Kiểm tra trước khi nhóm trưởng merge
+Nếu muốn thử CI chặn lỗi, dùng nhánh riêng có một lỗi JavaScript rõ ràng; check phải đỏ và merge bị chặn. Đóng PR, xóa nhánh thử sau kiểm tra; không merge lỗi thử vào main.
 
-- Check xanh và không còn xung đột với main.
-- Đọc diff để biết những file nào bị sửa; phần thay đổi đúng task.
-- Kiểm tra thao tác đúng tiêu chí đạt, trên điện thoại nếu đổi UI.
-- Với chức năng nghiệp vụ mới, có kiểm thử tương ứng. Hiện CI chưa kiểm thử MongoDB thật hoặc ngân hàng thật; không suy ra những phần đó đúng từ check xanh.
-- Mỗi PR giải quyết một task vừa đủ nhỏ để review. Không sửa test hoặc giảm điều kiện kiểm tra chỉ để làm check xanh.
+## Chia file khi làm UI
 
-CI bắt được lỗi trong các kiểm tra đã viết. Lỗi nghiệp vụ mới cần bổ sung test và review, không có thiết lập đảm bảo tự động phát hiện mọi lỗi.
+- Nhóm trưởng giữ header/footer, thiết kế chung, route và hợp đồng API.
+- Người nhận task sửa các màn hình được giao; CSS/JS phần riêng nằm trong file hoặc vùng có phạm vi rõ ràng.
+- Không cùng sửa thành phần dùng chung khi chưa thống nhất.
+- API chưa có: dùng dữ liệu mẫu có nhãn, liệt kê trạng thái/đầu vào cần nối thật; không báo đã triển khai nghiệp vụ.
+- Màn hình thanh toán không tự đặt trạng thái “đã trả tiền”. Bản thật phải lấy kết quả do backend xác minh.
+
+## Trước khi merge
+
+- Check xanh, không xung đột main; diff đúng phạm vi task.
+- Kiểm tra thao tác theo tiêu chí đạt và trên điện thoại khi đổi UI.
+- Nghiệp vụ mới có kiểm thử phù hợp. CI hiện chưa kiểm chứng MongoDB thật/ngân hàng thật.
+- Không sửa test hoặc giảm điều kiện chỉ để check xanh.
+
+CI phát hiện lỗi trong những kiểm tra đã viết; không có thiết lập tự tìm mọi lỗi nghiệp vụ.

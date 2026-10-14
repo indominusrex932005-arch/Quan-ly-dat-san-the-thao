@@ -1,0 +1,38 @@
+<%- include('partials/header') %>
+<div class="page-heading d-flex flex-wrap align-items-start justify-content-between gap-3"><div><p class="eyebrow">Góc quản lý</p><h1>Hôm nay sân mình thế nào?</h1><p class="text-secondary mb-0"><%= facility.name %> · Giao diện quản lý mẫu</p></div><a class="btn btn-outline-secondary" href="/facilities/<%= facility._id %>">Xem trang cơ sở →</a></div>
+<p class="demo-note">Trang mẫu chưa yêu cầu đăng nhập, chưa quản lý đơn thật. Chỉ dùng dữ liệu giả khi chạy thử.</p>
+<form action="/demo/owner" method="get" class="d-flex flex-wrap align-items-end gap-2 mb-4">
+  <div><label class="form-label" for="owner-facility">Xem cơ sở mẫu</label><select class="form-select" id="owner-facility" name="facilityId">
+    <% for (const item of facilities) { %><option value="<%= item._id %>" <%= String(item._id) === String(facility._id) ? 'selected' : '' %>><%= item.name %></option><% } %>
+  </select></div>
+  <button class="btn btn-outline-secondary" type="submit">Xem cơ sở</button>
+</form>
+<div class="owner-stats">
+  <section class="panel"><p class="text-secondary mb-2">Phiếu mẫu đã mở</p><strong class="h2"><%= previews.length %></strong><p class="small text-secondary mb-0">Trong bộ nhớ của lần chạy này</p></section>
+  <section class="panel"><p class="text-secondary mb-2">Tổng thời lượng mẫu</p><strong class="h2"><%= previews.reduce((sum, item) => sum + item.quote.totalMinutes, 0) %> <span class="h6">phút</span></strong><p class="small text-secondary mb-0">Các ô đã chọn trong phiếu mẫu</p></section>
+  <section class="panel"><p class="text-secondary mb-2">Tổng giá mẫu</p><strong class="h2"><%= currency(previews.reduce((sum, item) => sum + item.quote.totalPriceVND, 0)) %></strong><p class="small text-secondary mb-0">Không phải doanh thu hoặc tiền đã nhận</p></section>
+</div>
+<section class="panel mt-4" aria-labelledby="owner-bookings-title">
+  <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4"><div><h2 id="owner-bookings-title" class="h4 mb-1">Tra phiếu đặt sân mẫu</h2><p class="text-secondary mb-0">Tìm bằng mã đơn, tên hoặc số điện thoại.</p></div><div class="owner-search"><label class="form-label small" for="owner-search">Tìm phiếu</label><input class="form-control" id="owner-search" type="search" placeholder="Mã đơn, tên, SĐT…" data-owner-search autocomplete="off"></div></div>
+  <% if (previews.length) { %>
+    <div class="table-responsive"><table class="table align-middle mb-0">
+      <thead><tr><th scope="col">Mã đơn / Khách</th><th scope="col">Sân / Ngày</th><th scope="col">Ô giờ</th><th scope="col">Giá mẫu</th><th scope="col">Trạng thái</th><th scope="col"><span class="visually-hidden">Xem phiếu</span></th></tr></thead>
+      <tbody data-owner-bookings>
+        <% for (const item of previews) { %>
+          <tr data-owner-booking data-search-text="<%= `${item.code} ${item.guest.name} ${item.guest.phone}` %>">
+            <td><strong><%= item.code %></strong><div><%= item.guest.name %></div><div class="small text-secondary"><%= item.guest.phone %></div></td>
+            <td><strong><%= item.court.name %></strong><div class="small text-secondary"><%= item.date.split('-').reverse().join('/') %></div></td>
+            <td><% for (const slot of item.quote.slots) { %><div class="small"><%= slot.time %>–<%= slot.endTime %></div><% } %></td>
+            <td><strong><%= currency(item.quote.totalPriceVND) %></strong></td><td><span class="status-pill">Phiếu mẫu</span></td>
+            <td><a class="btn btn-sm btn-outline-secondary" href="/demo/receipt/<%= item.token %>">Xem phiếu</a></td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table></div>
+    <p class="text-secondary text-center py-4 mb-0" data-owner-no-results hidden>Không tìm thấy phiếu phù hợp.</p>
+  <% } else { %>
+    <div class="empty-state text-center py-4"><h3 class="h5">Chưa có phiếu mẫu nào</h3><p class="text-secondary">Thử chọn sân và đi hết luồng mẫu để thấy phiếu tại đây.</p><a class="btn btn-primary" href="/">Thử đặt sân →</a></div>
+  <% } %>
+</section>
+<script src="/assets/js/checkout.js" defer></script>
+<%- include('partials/footer') %>

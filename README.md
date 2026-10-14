@@ -1,12 +1,16 @@
 # Hệ thống quản lý đặt sân thể thao
 
-Thời hạn hiện tại còn 3 tuần để hoàn thành và nộp bản final. Bản hiện tại là bộ khởi đầu để phát triển chung, chưa phải hệ thống đặt sân hoàn chỉnh. Dữ liệu mẫu phục vụ phát triển; mục tiêu bản nộp là các chức năng đã thống nhất chạy với dữ liệu lưu thật.
+Website đặt sân theo ô 30 phút. Khách không cần tài khoản: chọn sân, nhập tên/SĐT, thanh toán và nhận phiếu đặt sân. Chủ sân tra mã đơn trên hệ thống khi khách đến, kiểm tra đơn đã thanh toán và chưa check-in rồi ghi nhận khách đến sân.
+
+Thời hạn hiện tại còn 3 tuần để hoàn thành và nộp final; ngày nộp cụ thể chưa được cung cấp. Repo đang là bộ khởi đầu có giao diện chạy thử, chưa phải hệ thống đặt sân hoàn chỉnh. Các thao tác mẫu không thay thế chức năng của bản final.
 
 ## Công nghệ
 
 JavaScript, Node.js 24 LTS, Express 5, EJS, Bootstrap 5, MongoDB Atlas và Mongoose. Các thư viện session, bcrypt và Zod đã được chuẩn bị để phát triển tiếp.
 
 ## Chạy giao diện mẫu
+
+![Giao diện chọn cơ sở với dữ liệu mẫu](docs/GIAO_DIEN_MAU.png)
 
 Cài Node.js 24, sau đó mở terminal trong thư mục dự án:
 
@@ -15,9 +19,26 @@ npm ci
 npm run dev
 ```
 
-Mở `http://localhost:3000` trên máy đang chạy ứng dụng. Chế độ mẫu mặc định không cần MongoDB, không tạo đơn và không nhận tiền. Nhấn Ctrl+C để dừng.
+Mở `http://localhost:3000` trên máy đang chạy ứng dụng. Có thể dùng `npm start` để chạy không watch; nhấn Ctrl+C để dừng. Khi chưa có `.env`, ứng dụng mặc định dùng dữ liệu mẫu và không cần MongoDB.
 
-Hiện có: chọn một trong hai cơ sở mẫu; chọn sân và ngày; xem ô trống/booked/locked; chọn ô 30 phút rời nhau; nhập tên và số điện thoại; xem báo giá do backend tính. Trang đăng nhập chủ sân mới là giao diện, chưa xác thực.
+Luồng chạy thử:
+
+1. Chọn cơ sở mẫu, sân và ngày.
+2. Chọn các ô 30 phút còn trống; có thể chọn các ô rời nhau.
+3. Nhập tên/SĐT và kiểm tra thông tin, các ô đã chọn, tổng giá do backend tính.
+4. Mở trang thanh toán mẫu để xem bố cục QR và đồng hồ 10 phút.
+5. Bấm **Xem phiếu mẫu** để xem phiếu đặt sân; khách có thể chụp màn hình phiếu.
+6. Mở `/demo/owner` để xem bố cục trang quản lý bằng dữ liệu mẫu.
+
+**Chế độ mẫu không tạo booking hoặc giữ ô thật, không nhận/xác nhận tiền, không lưu dữ liệu vào MongoDB.** Phiên xem thử chỉ nằm trong bộ nhớ: có 10 phút để mở phiếu mẫu; dữ liệu được giữ tối đa một giờ và mất khi khởi động lại server. Nút xem phiếu mẫu không xác minh giao dịch ngân hàng. Trang quản lý mẫu không đăng nhập, không thao tác đơn/check-in thật; trang đăng nhập chủ sân vẫn chưa xác thực. Các đường dẫn `/demo/...` chỉ dùng trong `DEMO_MODE=true`.
+
+## Luồng bản hoàn chỉnh
+
+Chọn sân/ngày/ô → nhập tên/SĐT → backend giữ tất cả ô trong 10 phút → kiểm tra thông tin → trả toàn bộ tiền → backend xác minh nhận đủ tiền → phiếu đặt sân → chủ sân tra mã và check-in.
+
+Phiếu cần mã đơn, tên/SĐT, sân, cơ sở/địa chỉ, ngày, từng ô giờ, số tiền và trạng thái. Ảnh chụp giúp tra cứu; chủ sân vẫn kiểm tra bản ghi hợp lệ trên hệ thống, không dùng ảnh làm bằng chứng đã nhận tiền. Khách nhắn Zalo được gửi link website để tự đặt; nhập đơn trực tiếp chỉ cần khi chủ sân vẫn nhận đặt/thu tiền ngoài web.
+
+Chưa triển khai: đăng nhập/phân quyền chủ sân, ghi booking và transaction giữ chỗ, thanh toán tự động, quản lý sân/đơn, hủy/hoàn/đổi, check-in và báo cáo. MongoDB thật và kết nối MB Bank chưa được kiểm chứng. Các chi tiết còn mở nằm trong tài liệu quy tắc.
 
 ## Kiểm tra trước khi gửi Pull Request
 
@@ -26,7 +47,7 @@ npm run check
 npm test
 ```
 
-`check` kiểm tra JavaScript và biên dịch template EJS. Bộ test kiểm tra báo giá, ô rời nhau, hết hạn lock khi đọc lịch, chính sách phí/hoàn tiền, đầu vào và API. Chưa có kiểm thử ghi dữ liệu MongoDB, đặt đồng thời hoặc giao dịch ngân hàng thật.
+`check` kiểm tra JavaScript và biên dịch template EJS. Bộ test kiểm tra những luồng API, quy tắc và giao diện mẫu đã triển khai. Chưa có kiểm thử ghi dữ liệu MongoDB, đặt đồng thời hoặc giao dịch ngân hàng thật; check xanh không chứng minh các chức năng chưa làm đã đúng.
 
 ## Kết nối MongoDB khi phát triển tiếp
 
@@ -37,7 +58,7 @@ npm run seed
 npm start
 ```
 
-Seed chỉ thêm/cập nhật 2 cơ sở và 3 sân mẫu theo tên; không xóa toàn bộ database, không tạo tài khoản. Chế độ MongoDB hiện đọc cơ sở, sân và lịch; các API ghi đơn/xác thực sẽ được triển khai tiếp. MongoDB thật chưa được kiểm chứng trong bộ khởi đầu vì chưa có cấu hình kết nối.
+Seed chỉ thêm/cập nhật 2 cơ sở và 3 sân mẫu theo tên; không xóa toàn bộ database, không tạo tài khoản. Chế độ MongoDB hiện đọc cơ sở, sân và lịch; các API ghi đơn/xác thực sẽ được triển khai tiếp. Chế độ này không mở các trang xem thử `/demo/...`.
 
 ## Cấu trúc
 
@@ -47,7 +68,7 @@ src/server.js          Khởi động ứng dụng
 src/config.js          Kiểm tra cấu hình
 src/domain/            Quy tắc thời gian, giá, phí và dữ liệu khách
 src/models/            Schema Mongoose
-src/services/          Đọc dữ liệu mẫu hoặc MongoDB
+src/services/          Đọc dữ liệu và hỗ trợ luồng mẫu
 src/data/              Dữ liệu giả cho UI
 views/                 Giao diện EJS
 public/                CSS và JavaScript trên trình duyệt
@@ -60,20 +81,18 @@ docs/                  Tài liệu
 ## Tài liệu hiện hành
 
 - [Quy tắc nghiệp vụ hiện tại](docs/QUY_TAC_PROTOTYPE.md)
-- [API và phần chưa triển khai](docs/API.md)
-- [Cách làm nhóm và bật bảo vệ main](CONTRIBUTING.md)
-- [Các bước phát triển tiếp](docs/CONG_VIEC_TIEP_THEO.md)
-- [Kế hoạch hoàn thành bản final trong 3 tuần](docs/KE_HOACH_3_TUAN.md)
+- [API đã có và dự kiến](docs/API.md)
+- [Cách làm chung và bảo vệ main](CONTRIBUTING.md)
+- [Các bước phát triển và chia task UI](docs/CONG_VIEC_TIEP_THEO.md)
+- [Kế hoạch hoàn thành final trong 3 tuần](docs/KE_HOACH_3_TUAN.md)
 
-Dùng các tài liệu Markdown trên làm căn cứ cho code. File Word và sơ đồ nộp final cần được làm theo nghiệp vụ hiện hành và chức năng đã hoàn thành; hiện chưa có bản cập nhật trong repo.
+Dùng tài liệu Markdown hiện hành làm căn cứ cho code. File Word, use case, ERD và state machine nộp final cần khớp nghiệp vụ hiện hành và chức năng đã hoàn thành; hiện chưa có bộ báo cáo/sơ đồ cập nhật trong repo.
 
 ## Giao task cho AI
 
-Gửi link repo chưa đảm bảo AI đọc được code. Với công cụ có quyền đọc GitHub hoặc workspace, yêu cầu mở/clone repo. Nếu công cụ không có quyền truy cập, cung cấp các tài liệu bên dưới và file liên quan đến task.
+Gửi link repo chưa đảm bảo AI đọc được code. Với công cụ có quyền đọc GitHub hoặc workspace, yêu cầu mở/clone repo. Nếu công cụ không có quyền truy cập, cung cấp các tài liệu và file liên quan; không gửi `.env` hay khóa dịch vụ.
 
-Repo có [AGENTS.md](AGENTS.md) để AI tiếp nhận quy tắc hiện hành. Một số công cụ tự đọc file này; các công cụ khác cần được nhắc rõ. Không yêu cầu AI viết lại toàn bộ dự án trong một lần.
-
-Mẫu prompt cho từng thành viên:
+Repo có [AGENTS.md](AGENTS.md) để AI tiếp nhận quy tắc. Mẫu prompt cho một task:
 
 ```text
 Bạn hỗ trợ dự án này:
@@ -81,20 +100,20 @@ https://github.com/indominusrex932005-arch/Quan-ly-dat-san-the-thao
 
 Trước khi sửa code, đọc AGENTS.md, README.md, CONTRIBUTING.md,
 docs/QUY_TAC_PROTOTYPE.md, docs/API.md và code liên quan.
-Phân biệt chức năng đang chạy với chức năng chưa triển khai.
+Phân biệt luồng mẫu đang chạy với chức năng thật chưa triển khai.
 
 Task của tôi: [ghi một task cụ thể].
 Phạm vi: [các trang hoặc module cần làm].
-Tiêu chí đạt: [các thao tác và kết quả kiểm tra mong muốn].
+Tiêu chí đạt: [thao tác và kết quả kiểm tra mong muốn].
 
 Giữ JavaScript/Express/EJS/Bootstrap/Mongoose và quy tắc hiện hành.
-Làm trên nhánh feat/[ten-task]. Chạy kiểm tra phù hợp, gồm npm run check
-và npm test nếu sửa code. Báo file đã sửa, kết quả và phần còn thiếu.
+Làm trên nhánh feat/[ten-task]. Chạy npm run check và npm test nếu sửa code.
+Báo file đã sửa, kết quả và phần còn thiếu.
 Nếu không đọc được repo, nói rõ để tôi cung cấp file; không đoán code.
 ```
 
-Nhóm trưởng giao phạm vi riêng cho mỗi người, sau đó xem diff và kiểm tra thao tác trong Pull Request trước khi merge. Việc AI đọc tài liệu không thay thế kiểm tra kết quả.
+Nhóm trưởng giao phạm vi riêng, xem diff và kiểm tra thao tác trước khi merge. Việc AI đọc tài liệu không thay thế kiểm tra kết quả.
 
 ## Triển khai sau
 
-Ứng dụng Express/EJS chạy chung một máy chủ. Trên Render, lệnh cài là `npm ci`, lệnh chạy là `npm start`; đặt `NODE_ENV=production`, `DEMO_MODE=false` và cấu hình database/session riêng. Chưa triển khai website công khai; chưa tích hợp MB Bank. Hoàn thiện chức năng trước khi dùng với khách và tiền thật.
+Ứng dụng Express/EJS chạy chung một máy chủ. Trên Render, lệnh cài là `npm ci`, lệnh chạy là `npm start`; đặt `NODE_ENV=production`, `DEMO_MODE=false` và cấu hình database/session riêng. Chưa triển khai website công khai hoặc thiết lập Vercel Preview; chưa tích hợp MB Bank. Hoàn thiện và kiểm chứng chức năng trước khi dùng với khách và tiền thật.

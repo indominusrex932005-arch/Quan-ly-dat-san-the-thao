@@ -1,0 +1,23 @@
+<%- include('partials/header') %>
+<nav aria-label="Các bước đặt sân" class="flow-steps"><span>1. Chọn sân &amp; giờ</span><span>2. Xác nhận</span><span>3. Thanh toán</span><strong aria-current="step">4. Phiếu đặt sân</strong></nav>
+<div class="page-heading"><div><p class="eyebrow">Lưu lại để xem trước cách dùng</p><h1>Phiếu đặt sân mẫu</h1><p class="text-secondary">Bạn có thể chụp màn hình hoặc in phiếu này để thử giao diện.</p></div></div>
+<section class="ticket-card" aria-labelledby="receipt-title">
+  <div class="ticket-header"><div><p class="eyebrow">Đặt sân thể thao</p><h2 id="receipt-title" class="h3"><%= preview.facility.name %></h2></div><span class="status-pill">PHIẾU MẪU</span></div>
+  <div class="ticket-meta"><span>Mã đơn mẫu</span><strong><%= preview.code %></strong></div>
+  <p class="demo-note receipt-note">Chưa có giao dịch tiền thật. Phiếu mẫu không dùng để nhận sân.</p>
+  <dl class="detail-list ticket-details">
+    <div class="detail-item"><dt>Người chơi</dt><dd><%= preview.guest.name %></dd></div>
+    <div class="detail-item"><dt>Số điện thoại</dt><dd><%= preview.guest.phone %></dd></div>
+    <div class="detail-item"><dt>Sân</dt><dd><%= preview.court.name %></dd></div>
+    <div class="detail-item"><dt>Địa chỉ</dt><dd><%= preview.facility.address %></dd></div>
+    <div class="detail-item"><dt>Ngày chơi</dt><dd><%= preview.date.split('-').reverse().join('/') %></dd></div>
+    <div class="detail-item"><dt>Thời lượng</dt><dd><%= preview.quote.totalMinutes %> phút</dd></div>
+  </dl>
+  <h3 class="h6 mt-4">Các ô giờ đã chọn</h3>
+  <ul class="slot-summary list-unstyled"><% for (const slot of preview.quote.slots) { %><li class="slot-summary-row"><span><%= slot.time %>–<%= slot.endTime %></span><strong><%= currency(slot.priceVND) %></strong></li><% } %></ul>
+  <div class="price-total"><span>Tổng giá mẫu</span><strong><%= currency(preview.quote.totalPriceVND) %></strong></div>
+  <p class="text-secondary small mt-4 mb-0">Khi dùng bản thật, chủ sân tra mã đơn để kiểm tra tiền và tình trạng check-in. Ảnh chụp không thay thế dữ liệu đơn trong hệ thống.</p>
+</section>
+<div class="receipt-actions d-flex flex-wrap gap-2 justify-content-center mt-4"><button class="btn btn-primary" type="button" data-print-receipt>In / Lưu PDF</button><a class="btn btn-outline-secondary" href="/">Đặt sân khác</a><a class="btn btn-outline-secondary" href="/demo/owner?facilityId=<%= preview.facility._id %>">Xem trang chủ sân mẫu</a></div>
+<script src="/assets/js/checkout.js" defer></script>
+<%- include('partials/footer') %>
