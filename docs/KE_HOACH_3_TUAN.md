@@ -1,56 +1,58 @@
-# Kế hoạch hoàn thành bản final trong 3 tuần
+# Kế hoạch hoàn thành final trong 3 tuần
 
-Nhóm trưởng xác nhận: còn 3 tuần là nộp bản final. Đây là thời gian hoàn thành và nộp dự án, không phải hạn làm prototype. Ngày nộp cụ thể chưa được cung cấp, nên kế hoạch dùng tuần tương đối và không tự gán hạn 03/11.
+Còn 3 tuần là nộp final, không phải hạn chỉ làm prototype. Ngày nộp cụ thể chưa được cung cấp, nên kế hoạch dùng tuần tương đối.
 
-Mục tiêu: website có các chức năng đã thống nhất, dữ liệu lưu thật trên MongoDB, được triển khai và kiểm thử, kèm báo cáo/hướng dẫn nộp. Dữ liệu mẫu và thao tác mô phỏng chỉ phục vụ phát triển, không đáp ứng tiêu chí hoàn thành bản final.
+Mục tiêu: website thực hiện các chức năng đã thống nhất, dữ liệu lưu trên MongoDB, được triển khai/kiểm thử và có báo cáo/hướng dẫn. Dữ liệu mẫu và nút **Xem phiếu mẫu** phục vụ phát triển, không đáp ứng tiêu chí thanh toán/đặt sân thật.
 
-## Tuần 1 – hoàn thành nền tảng và đặt sân
+Luồng chính: chọn sân/ngày/ô → tên/SĐT → giữ chỗ 10 phút → xác nhận → thanh toán 100% → backend xác minh tiền → phiếu đặt sân → chủ sân tra mã và check-in. Không thêm duyệt đơn web hay tài khoản khách.
 
-- Mời người tham gia, bật Ruleset cho main; kiểm tra PR lỗi bị chặn.
-- Tất cả clone và chạy bộ khởi đầu, giao task qua Issues và bàn giao qua PR.
-- Kết nối MongoDB phát triển dùng replica set/Atlas; kiểm tra seed và đọc dữ liệu.
-- Hoàn thành đăng nhập chủ sân, giới hạn dữ liệu theo cơ sở và cập nhật sân/giá.
-- Làm API tạo đơn lưu tên/SĐT, giữ toàn bộ ô chọn trong transaction và hết hạn 10 phút.
-- UI khách nối API thật, không coi API báo giá hiện có là đã tạo đơn.
-- Chốt những chi tiết hủy/đổi còn mở và chọn kết nối giao dịch hỗ trợ tài khoản MB. Kiểm tra khả năng đăng ký, cấu hình và điều kiện sử dụng ngay trong tuần này để có thời gian tích hợp; chưa cần tích hợp trước các phần độc lập.
+## Tuần 1 – nền tảng và đặt sân
 
-Đầu ra phải kiểm tra: tạo đơn rời ô; chỉ giữ ô đã chọn; nhiều yêu cầu cùng một ô chỉ một đơn giữ được; thất bại một ô không chiếm các ô còn lại; hết hạn mở lại ô; chủ sân không sửa được cơ sở khác.
+- Kiểm tra quyền tham gia, Ruleset/CI, clone/chạy app; giao task nhỏ qua Issues/PR.
+- Thống nhất giao diện đơn giản và dữ liệu từng trang; hoàn thiện chọn sân, xác nhận, thanh toán/phiếu, quản lý mẫu rồi nối phần API đã có.
+- Kết nối MongoDB replica set/Atlas; kiểm tra seed và đọc dữ liệu.
+- Đăng nhập chủ sân, quyền theo cơ sở, cập nhật sân/giá.
+- Tạo đơn lưu tên/SĐT, giữ toàn bộ ô chọn trong transaction, hết hạn 10 phút.
+- Chốt chi tiết hủy/đổi/hoàn còn mở, chọn dịch vụ giao dịch MB và kiểm tra khả năng đăng ký/cấu hình ngay trong tuần.
 
-## Tuần 2 – hoàn thành các chức năng chính
+Đầu ra kiểm tra được: đơn rời ô chỉ giữ ô đã chọn; tranh cùng ô chỉ một đơn thắng; một ô lỗi không chiếm các ô khác; hết hạn mở lại; chủ sân không sửa cơ sở khác. Báo giá và phiên demo không thay cho việc tạo booking thật.
 
-- Làm danh sách/chi tiết đơn, nhập đơn Zalo/tại quầy, ghi nhận tiền ngoài web và check-in.
-- Làm link quản lý đơn riêng của khách; kiểm tra không dùng SĐT đơn thuần để cấp quyền hủy.
-- Làm hủy, ghi nhận tiền cần hoàn và việc chủ sân chuyển hoàn; đổi lịch thu đúng phí và giữ lịch cũ cho đến khi đổi thành công.
-- Tích hợp kết nối giao dịch đã chọn: QR đúng đơn/số tiền, nhận và xác thực webhook, đối chiếu giao dịch và xác nhận đơn tự động. Hoàn thiện trang kết quả thanh toán và giải quyết trường hợp tiền về sau hết hạn.
-- Làm báo cáo cơ bản theo dữ liệu đã ghi nhận, phân biệt tiền thu và tiền cần hoàn.
+## Tuần 2 – hoàn thành các luồng chính
 
-Đầu ra: các luồng khách đặt/thanh toán/tra cứu/hủy/đổi và chủ sân quản lý/nhập đơn ngoài/check-in hoạt động với dữ liệu lưu thật. Các phần phải được ghép vào website trước khi bước sang tuần cuối.
+- Nối thanh toán với dịch vụ đã chọn: QR đúng đơn/tiền, webhook xác thực, đối chiếu giao dịch và xác nhận một lần. Xử lý tiền về sau hết hạn.
+- Phiếu thật hiện mã đơn, tên/SĐT, sân/địa chỉ, ngày, từng ô, tiền/trạng thái; khách chụp màn hình.
+- Chủ sân xem/lọc đơn, tra mã và check-in trên hệ thống; chống check-in lặp. Ảnh không thay việc đối chiếu đơn hợp lệ.
+- Link quản lý đơn riêng cho khách, không dùng SĐT/mã công khai làm quyền hủy/đổi.
+- Hủy, nghĩa vụ hoàn và ghi nhận chủ sân chuyển hoàn; đổi thu phí đúng, giữ lịch cũ đến khi thành công.
+- Nhập đơn trực tiếp nếu vẫn nhận đặt/tiền ngoài web. Nếu ưu tiên hoàn toàn web, gửi link cho khách hỏi Zalo để họ tự đặt.
+- Báo cáo cơ bản theo dữ liệu đã ghi, phân biệt tiền thu/hoàn.
 
-## Tuần 3 – kiểm thử, triển khai và nộp final
+Đầu ra: các luồng khách đặt/thanh toán/phiếu/tra cứu/hủy/đổi và chủ sân quản lý/check-in hoạt động với dữ liệu thật trước tuần cuối. Chức năng ngoài web nếu còn trong phạm vi cũng phải được ghép/kiểm tra.
 
-- Đầu tuần: triển khai website HTTPS, kiểm tra cấu hình MongoDB/session/webhook và thao tác trên điện thoại.
-- Kiểm thử toàn bộ nghiệp vụ trên bản triển khai, sửa lỗi và lưu bằng chứng chạy; các test MongoDB/đặt đồng thời/thanh toán phải được thực hiện, không suy ra từ test bộ khởi đầu.
-- Cập nhật requirement, ERD, state machine, phân tích/ phạm vi, workflow và hướng dẫn sử dụng để khớp bản đã làm.
-- Kiểm tra báo cáo và kiến thức giải thích của từng thành viên. Ghi đúng kết quả khảo sát và những giới hạn còn tồn tại.
-- Hai ngày cuối: chốt code, chỉ sửa lỗi; kiểm tra đường dẫn website, mã nguồn, cấu hình mẫu và các file phải nộp.
+## Tuần 3 – kiểm thử, triển khai và nộp
 
-Các ca quan trọng: đặt đồng thời, lock hết hạn, ô rời nhau, giá qua giờ cao điểm, quyền theo cơ sở, khách xem/hủy đúng đơn, mốc hủy 24 giờ, phí đổi, đổi thất bại giữ lịch cũ và đơn ngoài không chiếm trùng ô đã giữ.
+- Đầu tuần triển khai HTTPS, kiểm tra cấu hình MongoDB/session/webhook, thao tác trên điện thoại.
+- Kiểm thử nghiệp vụ trên bản triển khai, sửa lỗi, lưu bằng chứng. Chạy kiểm thử MongoDB/đặt đồng thời/thanh toán; không suy ra từ test mẫu.
+- Cập nhật requirement, use case, ERD, state machine, phân tích/phạm vi, workflow và hướng dẫn khớp code.
+- Kiểm tra báo cáo và khả năng giải thích từng phần; ghi đúng khảo sát và giới hạn thực tế.
+- Hai ngày cuối chốt code, chỉ sửa lỗi; kiểm tra link web, mã nguồn, cấu hình mẫu và gói nộp.
 
-Thanh toán tự động vẫn là yêu cầu bản final theo lựa chọn của nhóm trưởng. Kết nối MB chưa được xác minh là một phụ thuộc phải xử lý sớm. Nếu không đáp ứng được, báo ngay để nhóm trưởng quyết định thay đổi phạm vi; không tự thay bằng nút thanh toán mô phỏng hoặc coi giao diện QR là chức năng đã hoàn thành.
+Các ca quan trọng: đặt đồng thời, lock hết hạn, ô rời nhau, giá qua giờ cao điểm, quyền cơ sở, khách xem/hủy đúng đơn, mốc 24 giờ, phí đổi, đổi thất bại giữ lịch cũ, webhook lặp/sai/thiếu và check-in lặp. Nếu có đơn ngoài, kiểm tra không chiếm trùng ô đã giữ.
 
-## Tiêu chí chốt bản final
+Thanh toán tự động là yêu cầu final. Kết nối MB chưa được xác minh là phụ thuộc cần xử lý sớm; nếu không đáp ứng, báo nhóm trưởng quyết định phạm vi, không tự thay bằng mô phỏng hoặc coi QR là hoàn thành.
 
-- Một tài khoản mỗi cơ sở; quản lý không truy cập/sửa dữ liệu cơ sở khác.
-- Khách không cần tài khoản, lưu tên/SĐT và danh sách ô rời nhau đúng giá.
-- Giữ chỗ 10 phút, chống trùng trong database, hết hạn mở lại ô.
-- Thanh toán toàn bộ được xác nhận từ giao dịch hợp lệ; chống ghi nhận hai lần.
-- Đơn ngoài web, check-in, hủy/hoàn và đổi lịch xử lý theo quy tắc đã chốt.
-- Báo cáo cơ bản, website triển khai và tài liệu nộp khớp code.
-- Không còn lỗi chặn các luồng chính; ghi rõ mọi phần chưa hoàn thành thay vì đánh dấu hoàn tất.
+## Tiêu chí chốt final
+
+- Một tài khoản mỗi cơ sở, quản lý không truy cập/sửa dữ liệu cơ sở khác.
+- Khách không cần tài khoản; tên/SĐT, ô rời nhau và giá lưu đúng.
+- Giữ chỗ 10 phút, chống trùng database, hết hạn mở lại ô.
+- Thanh toán toàn bộ xác nhận từ giao dịch hợp lệ, không ghi nhận hai lần.
+- Phiếu đặt sân và check-in đối chiếu bản ghi hợp lệ.
+- Hủy/hoàn/đổi xử lý theo quy tắc; đơn ngoài web nếu còn nhận cũng được quản lý.
+- Báo cáo cơ bản, website triển khai và tài liệu khớp code; ghi rõ phần chưa hoàn thành.
 
 ## Theo dõi mỗi ngày
 
-- Một task có mục tiêu, phạm vi, hạn và tiêu chí đạt; có mẫu trong Issues → New issue.
-- Mỗi người báo ngắn: phần chạy được, link PR và việc đang vướng.
-- Nhóm trưởng review/ghép từng phần đã đạt; không chờ đến tuần cuối mới ghép.
-- Quy tắc/API thay đổi phải cập nhật tài liệu để các AI và thành viên đọc cùng một phiên bản.
+- Task có mục tiêu, phạm vi, hạn và tiêu chí đạt; dùng mẫu Issues.
+- Báo phần chạy được, link PR và việc vướng; ghép phần đã đạt sớm.
+- Quy tắc/API đổi phải cập nhật tài liệu để người và AI đọc cùng phiên bản.

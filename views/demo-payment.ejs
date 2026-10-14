@@ -1,0 +1,45 @@
+<%- include('partials/header') %>
+<nav aria-label="Các bước đặt sân" class="flow-steps">
+  <span>1. Chọn sân &amp; giờ</span><span>2. Xác nhận</span><strong aria-current="step">3. Thanh toán</strong><span>4. Phiếu đặt sân</span>
+</nav>
+<div class="page-heading"><div><p class="eyebrow">Giao diện thanh toán mẫu</p><h1>Một bước nữa, sẵn sàng ra sân.</h1><p class="text-secondary">Bản thật sẽ hiện QR theo đơn và chờ ngân hàng xác nhận khoản tiền.</p></div></div>
+<div class="checkout-layout">
+  <section class="panel text-center" aria-labelledby="payment-preview-title">
+    <span class="status-pill">Chỉ thử giao diện</span><h2 id="payment-preview-title" class="h4 mt-3">Quét QR để thanh toán</h2>
+    <p class="demo-note">Không chuyển tiền vào mã mẫu.</p>
+    <div class="qr-preview mx-auto">
+      <svg viewBox="0 0 240 240" role="img" aria-labelledby="sample-qr-title" xmlns="http://www.w3.org/2000/svg">
+        <title id="sample-qr-title">Hình minh họa QR, không phải mã thanh toán</title>
+        <rect width="240" height="240" rx="16" fill="#ffffff"/>
+        <g fill="#173f35">
+          <path fill-rule="evenodd" d="M20 20h60v60H20zM30 30v40h40V30zM160 20h60v60h-60zM170 30v40h40V30zM20 160h60v60H20zM30 170v40h40v-40z"/>
+          <path d="M40 40h20v20H40zM180 40h20v20h-20zM40 180h20v20H40zM100 20h10v20h-10zM120 30h20v10h-20zM90 50h20v10H90zM120 60h20v20h-20zM20 100h20v10H20zM50 90h10v20H50zM70 100h20v10H70zM160 90h20v20h-20zM190 100h30v10h-30zM90 170h20v10H90zM120 170h10v20h-10zM150 160h20v10h-20zM180 170h10v30h-10zM210 150h10v30h-10zM100 200h10v20h-10zM130 210h30v10h-30zM150 180h10v20h-10zM170 210h20v10h-20zM200 200h20v20h-20z"/>
+        </g>
+        <rect x="12" y="116" width="216" height="40" rx="8" fill="#e8f3bc"/>
+        <text x="120" y="143" text-anchor="middle" fill="#173f35" font-family="sans-serif" font-size="23" font-weight="700">QR MẪU</text>
+      </svg>
+    </div>
+    <p class="payment-reference mt-4 mb-1">Mã đơn mẫu: <strong><%= preview.code %></strong></p><p class="h3 mb-4"><%= currency(preview.quote.totalPriceVND) %></p>
+    <div class="countdown" data-payment-countdown data-expires-at="<%= preview.expiresAt.toISOString() %>" role="timer" aria-label="Thời gian còn lại của phiên mẫu">
+      <% if (preview.expired) { %>Phiên mẫu đã hết hạn<% } else { %>Phiên mẫu còn tối đa 10:00<% } %>
+    </div>
+    <% if (!preview.expired) { %>
+      <form action="/demo/confirm/<%= preview.token %>" method="post" class="mt-4" data-demo-confirm-form><button class="btn btn-primary w-100" type="submit" data-demo-confirm-button>Xem phiếu mẫu →</button></form>
+      <p class="demo-note mt-3 mb-0">Nút này mở phiếu để thử giao diện, không xác nhận đã nhận tiền.</p>
+    <% } else { %><p class="demo-note mt-3">Phiên thử đã hết 10 phút. Bạn chọn lại sân để tiếp tục.</p><% } %>
+    <a class="btn btn-outline-secondary mt-3" href="/courts/<%= preview.court._id %>?date=<%= preview.date %>">Chọn lại giờ</a>
+  </section>
+  <aside class="summary-card">
+    <p class="eyebrow">Thông tin của bạn</p><h2 class="h4"><%= preview.court.name %></h2>
+    <p class="mb-1"><strong><%= preview.facility.name %></strong></p><p class="text-secondary"><%= preview.facility.address %></p>
+    <dl class="detail-list">
+      <div class="detail-item"><dt>Ngày chơi</dt><dd><%= preview.date.split('-').reverse().join('/') %></dd></div>
+      <div class="detail-item"><dt>Người chơi</dt><dd><%= preview.guest.name %></dd></div>
+      <div class="detail-item"><dt>Số điện thoại</dt><dd><%= preview.guest.phone %></dd></div>
+    </dl>
+    <ul class="slot-summary list-unstyled mt-4"><% for (const slot of preview.quote.slots) { %><li class="slot-summary-row"><span><%= slot.time %>–<%= slot.endTime %></span><strong><%= currency(slot.priceVND) %></strong></li><% } %></ul>
+    <p class="demo-note mb-0">Các ô trên chưa được giữ trong database. Phiên mẫu chỉ phục vụ chạy thử.</p>
+  </aside>
+</div>
+<script src="/assets/js/checkout.js" defer></script>
+<%- include('partials/footer') %>

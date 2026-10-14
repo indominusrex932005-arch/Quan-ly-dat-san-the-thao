@@ -1,39 +1,53 @@
 <%- include('partials/header') %>
-<a href="/facilities/<%= facility._id %>">← Quay lại cơ sở</a>
-<h1 class="h3 mt-3"><%= court.name %> – <%= facility.name %></h1><p><%= facility.address %></p>
-<form method="get" class="mb-4 d-flex align-items-end gap-2">
-  <div><label for="date" class="form-label">Ngày chơi</label><input class="form-control" type="date" id="date" name="date" value="<%= date %>" required></div>
-  <button class="btn btn-outline-primary">Xem lịch</button>
-</form>
-<div class="legend mb-3" aria-label="Chú thích trạng thái">
-  <span>⬜ Trống</span><span class="text-primary">● Đã đặt</span><span class="text-warning-emphasis">● Locked</span><span class="selected-label">● Đang chọn</span><span class="text-secondary">● Không phục vụ</span>
+<a class="back-link" href="/facilities/<%= facility._id %>"><span aria-hidden="true">←</span> Quay lại cơ sở</a>
+<div class="page-heading">
+  <div><p class="eyebrow">CHỌN NGÀY VÀ GIỜ</p><h1><%= court.name %> <span class="heading-divider">/</span> <span class="heading-facility"><%= facility.name %></span></h1><p class="address-line"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M15.5 8c0 4-5.5 9-5.5 9S4.5 12 4.5 8a5.5 5.5 0 1 1 11 0Z"/><circle cx="10" cy="8" r="1.7"/></svg><span><%= facility.address %></span></p></div>
 </div>
-<p>Mỗi ô 30 phút. Có thể chọn các ô rời nhau trong cùng sân và ngày.</p>
+<ol class="flow-steps" aria-label="Tiến trình đặt sân"><li class="active" aria-current="step"><span>1</span> Chọn giờ</li><li><span>2</span> Xác nhận</li><li><span>3</span> Thanh toán</li><li><span>4</span> Phiếu đặt sân</li></ol>
+<form method="get" id="date-filter"></form>
 <form method="post" action="/quotes" id="booking-form">
   <input type="hidden" name="courtId" value="<%= court._id %>"><input type="hidden" name="date" value="<%= date %>">
-  <div class="slot-grid">
-    <% for (const slot of slots) { %>
-      <label class="slot <%= slot.status.toLowerCase() %>">
-        <input type="checkbox" name="times" value="<%= slot.time %>" data-price="<%= slot.priceVND %>" <%= slot.status !== 'AVAILABLE' ? 'disabled' : '' %>>
-        <span class="slot-content"><strong><%= slot.time %>–<%= slot.endTime %></strong>
-          <small><%= slot.status === 'BOOKED' ? 'Đã đặt' : slot.status === 'LOCKED' ? 'Locked' : slot.status === 'UNAVAILABLE' ? 'Không phục vụ' : currency(slot.priceVND) %></small>
-        </span>
-      </label>
-    <% } %>
+  <div class="booking-layout">
+    <section class="panel calendar-panel" aria-labelledby="calendar-title">
+      <div class="calendar-heading"><div><h2 id="calendar-title">Lịch sân trong ngày</h2><p>Mở cửa <%= court.openTime %>–<%= court.closeTime %></p></div><span class="status-pill">30 phút / ô</span></div>
+      <div class="date-picker">
+        <label for="date" class="form-label">Ngày chơi</label>
+        <div class="date-picker-controls"><input class="form-control" type="date" id="date" name="date" form="date-filter" value="<%= date %>" required><button type="submit" form="date-filter" class="btn btn-outline-primary" id="view-date">Xem lịch</button></div>
+      </div>
+      <div class="legend" aria-label="Chú thích trạng thái">
+        <span><i class="legend-dot available" aria-hidden="true"></i>Trống</span><span><i class="legend-dot booked" aria-hidden="true"></i>Đã đặt</span><span><i class="legend-dot locked" aria-hidden="true"></i>Đang giữ chỗ</span><span><i class="legend-dot selected" aria-hidden="true"></i>Đang chọn</span><span><i class="legend-dot unavailable" aria-hidden="true"></i>Không phục vụ</span>
+      </div>
+      <p class="slot-instruction">Bấm vào ô trống để chọn. Các ô không cần liền nhau.</p>
+      <div class="slot-grid">
+        <% for (const slot of slots) { %>
+          <label class="slot <%= slot.status.toLowerCase() %>">
+            <input type="checkbox" name="times" value="<%= slot.time %>" data-end="<%= slot.endTime %>" data-price="<%= slot.priceVND %>" aria-label="<%= slot.time %> đến <%= slot.endTime %>, <%= slot.status === 'BOOKED' ? 'đã đặt' : slot.status === 'LOCKED' ? 'đang giữ chỗ' : slot.status === 'UNAVAILABLE' ? 'không phục vụ' : currency(slot.priceVND) %>" <%= slot.status !== 'AVAILABLE' ? 'disabled' : '' %>>
+            <span class="slot-content"><strong><%= slot.time %>–<%= slot.endTime %></strong><small><%= slot.status === 'BOOKED' ? 'Đã đặt' : slot.status === 'LOCKED' ? 'Locked · Đang giữ' : slot.status === 'UNAVAILABLE' ? 'Không phục vụ' : currency(slot.priceVND) %></small><span class="slot-check" aria-hidden="true">✓</span></span>
+          </label>
+        <% } %>
+      </div>
+      <% if (!slots.length) { %><p class="empty-state">Chưa có khung giờ cho ngày này. Hãy chọn ngày khác.</p><% } %>
+      <noscript><p class="demo-note mt-3">Bật JavaScript trên trình duyệt để chọn ngày, giờ và nhập thông tin người chơi.</p></noscript>
+    </section>
+    <aside class="summary-card selection-summary" aria-label="Các ô đang chọn">
+      <p class="eyebrow">BUỔI CHƠI CỦA BẠN</p><h2><%= court.name %></h2><p class="summary-facility"><%= facility.name %></p>
+      <div class="summary-date"><span>Ngày chơi</span><strong><%= date.split('-').reverse().join('/') %></strong></div>
+      <div id="selected-times" class="selected-times"><p class="selection-empty">Chọn ô giờ bên trái để bắt đầu.</p></div>
+      <p id="selection-summary" class="selection-details" aria-live="polite">Chưa chọn ô giờ.</p>
+      <div class="selection-price"><span>Giá dự kiến</span><strong id="selection-price">—</strong></div>
+      <button type="button" class="btn btn-primary w-100" id="open-guest" disabled>Đặt sân <span aria-hidden="true">→</span></button>
+      <p class="summary-note">Bạn sẽ kiểm tra lại thông tin trước khi thanh toán.</p>
+    </aside>
   </div>
-  <div class="selection-summary mt-3 p-3 border rounded">
-    <p id="selection-summary" class="mb-2" aria-live="polite">Chưa chọn ô giờ.</p>
-    <button type="button" class="btn btn-primary" id="open-guest" disabled>Đặt sân</button>
-  </div>
-  <dialog id="guest-dialog" class="guest-dialog">
-    <h2 class="h5">Thông tin người chơi</h2>
-    <p>Thông tin dùng để liên hệ và check-in tại sân.</p>
-    <label for="guest-name" class="form-label">Họ tên</label>
-    <input class="form-control mb-3" id="guest-name" name="name" autocomplete="name" minlength="2" maxlength="100" required>
+  <dialog id="guest-dialog" class="guest-dialog" aria-labelledby="guest-title" aria-describedby="guest-description">
+    <div class="dialog-heading"><div><p class="eyebrow">KHÔNG CẦN TÀI KHOẢN</p><h2 id="guest-title">Thông tin người chơi</h2></div><button type="button" id="close-guest" class="dialog-close" aria-label="Đóng form thông tin">×</button></div>
+    <p id="guest-description">Nhập tên và số điện thoại để liên hệ và check-in tại sân.</p>
+    <label for="guest-name" class="form-label">Họ và tên</label>
+    <input class="form-control mb-3" id="guest-name" name="name" autocomplete="name" placeholder="Ví dụ: Nguyễn Minh Anh" minlength="2" maxlength="100" required>
     <label for="guest-phone" class="form-label">Số điện thoại</label>
-    <input class="form-control mb-3" id="guest-phone" name="phone" type="tel" autocomplete="tel" maxlength="20" required>
-    <button type="button" id="close-guest" class="btn btn-outline-secondary">Quay lại</button>
-    <button class="btn btn-primary">Tiếp tục</button>
+    <input class="form-control" id="guest-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="Ví dụ: 0912 345 678" maxlength="20" required aria-describedby="phone-hint">
+    <p class="field-hint" id="phone-hint">Dùng số di động Việt Nam, bắt đầu bằng 0 hoặc +84.</p>
+    <button class="btn btn-primary w-100 mt-2" id="submit-guest">Tiếp tục xác nhận <span aria-hidden="true">→</span></button>
   </dialog>
 </form>
 <%- include('partials/footer') %>

@@ -1,9 +1,13 @@
 <%- include('partials/header') %>
-<div class="card login-card mx-auto"><div class="card-body">
-  <h1 class="h4">Chủ sân đăng nhập</h1>
-  <p>Mỗi cơ sở có một tài khoản quản lý. Chức năng xác thực sẽ được triển khai tiếp.</p>
-  <label class="form-label" for="owner-email">Email</label><input class="form-control mb-3" id="owner-email" type="email" disabled>
-  <label class="form-label" for="owner-password">Mật khẩu</label><input class="form-control mb-3" id="owner-password" type="password" disabled>
-  <button class="btn btn-primary" disabled>Đăng nhập – chưa triển khai</button>
-</div></div>
+<div class="page-heading text-center"><p class="eyebrow">Dành cho chủ sân</p><h1>Quản lý sân, gọn một chỗ.</h1><p class="text-secondary">Một tài khoản cho mỗi cơ sở.</p></div>
+<section class="panel login-card mx-auto" aria-labelledby="owner-login-title">
+  <h2 id="owner-login-title" class="h4 mb-3">Chủ sân đăng nhập</h2>
+  <p class="demo-note">Đăng nhập thật chưa được triển khai. Các ô bên dưới đang tắt.</p>
+  <label class="form-label" for="owner-email">Email</label><input class="form-control mb-3" id="owner-email" type="email" placeholder="Email chủ sân" autocomplete="username" disabled>
+  <label class="form-label" for="owner-password">Mật khẩu</label><input class="form-control mb-4" id="owner-password" type="password" placeholder="Mật khẩu" autocomplete="current-password" disabled>
+  <button class="btn btn-primary w-100" disabled>Đăng nhập · Chưa kết nối</button>
+  <% if (demo) { %>
+    <div class="border-top mt-4 pt-4"><p class="small text-secondary">Muốn xem bố cục quản lý trước?</p><a class="btn btn-outline-secondary w-100" href="/demo/owner">Mở giao diện chủ sân mẫu →</a><p class="demo-note small mt-3 mb-0">Trang mẫu không đăng nhập và không cấp quyền quản lý thật.</p></div>
+  <% } %>
+</section>
 <%- include('partials/footer') %>
