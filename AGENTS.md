@@ -7,8 +7,9 @@ Dự án quản lý đặt sân thể thao. Đọc hướng dẫn này trước 
 1. `README.md`: cách chạy, luồng mẫu và giới hạn.
 2. `docs/QUY_TAC_PROTOTYPE.md`: quyết định nghiệp vụ và các điểm còn mở.
 3. `docs/API.md`: API đã chạy, đường dẫn mẫu và API dự kiến.
-4. `CONTRIBUTING.md`: nhánh task, Pull Request và kiểm tra.
-5. `docs/CONG_VIEC_TIEP_THEO.md`, `docs/KE_HOACH_3_TUAN.md`, sau đó code/test liên quan đến task.
+4. `docs/KIEN_TRUC_MVC.md`: cấu trúc MVC và nơi sửa từng phần.
+5. `CONTRIBUTING.md`: nhánh task, Pull Request và kiểm tra.
+6. `docs/CONG_VIEC_TIEP_THEO.md`, `docs/KE_HOACH_3_TUAN.md`, sau đó code/test liên quan đến task.
 
 Dùng tài liệu Markdown hiện hành và yêu cầu mới nhất của nhóm trưởng làm căn cứ. File Word và sơ đồ final cần khớp nghiệp vụ hiện hành và chức năng đã hoàn thành; hiện chưa có bộ cập nhật trong repo. Không phục hồi luồng quản lý duyệt rồi đặt cọc trước đây.
 
@@ -19,6 +20,17 @@ Dùng tài liệu Markdown hiện hành và yêu cầu mới nhất của nhóm 
 - MongoDB Atlas/Mongoose; session dự kiến dùng express-session/connect-mongo, mật khẩu bcrypt.
 - Zod kiểm tra đầu vào; Vitest/Supertest kiểm thử.
 - Giữ bộ công nghệ này trừ khi task yêu cầu thay đổi. Không thêm React, frontend thứ hai, Supabase hoặc backend Java cho một task nhỏ.
+
+## Cấu trúc code
+
+- `src/server.js` là file khởi động; giữ cách chạy bằng `npm run dev` hoặc `npm start`.
+- `src/app.js` chỉ cấu hình Express, tạo services theo từng ứng dụng và gắn routers/middleware. Không dồn xử lý từng màn hình hoặc nghiệp vụ mới vào file này.
+- `src/routes/` khai báo URL và HTTP method; `src/controllers/` nhận dữ liệu request, gọi services rồi render EJS/trả JSON.
+- `src/services/` xử lý việc đọc dữ liệu, tính lịch/báo giá và hỗ trợ luồng mẫu; `src/domain/` giữ các hàm quy tắc dùng chung. Khi triển khai booking thật, đặt transaction/giữ ô ở service, không làm trong View hoặc route.
+- `src/models/` có một file cho mỗi thực thể Mongoose; `index.js` xuất các model để phần dùng hiện có vẫn import được. Không tạo model trùng tên.
+- `views/` là View EJS; `public/` chứa CSS/JavaScript phía trình duyệt. Lịch, giá cuối cùng, quyền và trạng thái tiền phải được backend kiểm tra.
+- Controllers/routers dùng các dependencies được truyền từ `createApp`; không tạo bộ nhớ phiên mẫu hay clock dùng chung ngoài ứng dụng. Giữ các test chạy được với clock cố định.
+- `booking.service.js` hiện chỉ đọc lịch và tính báo giá; chưa tạo booking/SlotLock. Tách MVC không làm các chức năng chưa có trở thành đã triển khai.
 
 ## Luồng đơn giản đã thống nhất
 

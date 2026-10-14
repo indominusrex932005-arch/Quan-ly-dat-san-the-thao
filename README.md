@@ -8,6 +8,8 @@ Thời hạn hiện tại còn 3 tuần để hoàn thành và nộp final; ngà
 
 JavaScript, Node.js 24 LTS, Express 5, EJS, Bootstrap 5, MongoDB Atlas và Mongoose. Các thư viện session, bcrypt và Zod đã được chuẩn bị để phát triển tiếp.
 
+Code được tổ chức theo MVC: Model lưu/đọc dữ liệu, View hiển thị giao diện EJS, Controller nhận yêu cầu và trả kết quả. Routes khai báo URL; services xử lý nghiệp vụ để controller dễ đọc. Xem [cách tổ chức MVC](docs/KIEN_TRUC_MVC.md) trước khi nhận task code.
+
 ## Chạy giao diện mẫu
 
 ![Giao diện chọn cơ sở với dữ liệu mẫu](docs/GIAO_DIEN_MAU.png)
@@ -19,7 +21,7 @@ npm ci
 npm run dev
 ```
 
-Mở `http://localhost:3000` trên máy đang chạy ứng dụng. Có thể dùng `npm start` để chạy không watch; nhấn Ctrl+C để dừng. Khi chưa có `.env`, ứng dụng mặc định dùng dữ liệu mẫu và không cần MongoDB.
+Mở `http://localhost:3000` trên máy đang chạy ứng dụng. Có thể dùng `npm start` để chạy không watch; nhấn Ctrl+C để dừng. File khởi động là `src/server.js`; `src/app.js` cấu hình Express và gắn routes, không phải file chạy server riêng. Khi chưa có `.env`, ứng dụng mặc định dùng dữ liệu mẫu và không cần MongoDB.
 
 Luồng chạy thử:
 
@@ -63,12 +65,15 @@ Seed chỉ thêm/cập nhật 2 cơ sở và 3 sân mẫu theo tên; không xóa
 ## Cấu trúc
 
 ```text
-src/app.js             Trang EJS và API hiện có
-src/server.js          Khởi động ứng dụng
+src/server.js          Khởi động server
+src/app.js             Cấu hình Express, tạo services và gắn routes
 src/config.js          Kiểm tra cấu hình
+src/routes/            URL và HTTP method cho trang/API
+src/controllers/       Nhận yêu cầu, gọi services, render EJS hoặc trả JSON
+src/middleware/        Biến dùng chung cho View và xử lý lỗi
 src/domain/            Quy tắc thời gian, giá, phí và dữ liệu khách
-src/models/            Schema Mongoose
-src/services/          Đọc dữ liệu và hỗ trợ luồng mẫu
+src/models/            Model Mongoose, mỗi thực thể một file
+src/services/          Đọc dữ liệu, tính lịch/báo giá và hỗ trợ luồng mẫu
 src/data/              Dữ liệu giả cho UI
 views/                 Giao diện EJS
 public/                CSS và JavaScript trên trình duyệt
@@ -81,6 +86,7 @@ docs/                  Tài liệu
 ## Tài liệu hiện hành
 
 - [Quy tắc nghiệp vụ hiện tại](docs/QUY_TAC_PROTOTYPE.md)
+- [Cách tổ chức MVC và nơi sửa code](docs/KIEN_TRUC_MVC.md)
 - [API đã có và dự kiến](docs/API.md)
 - [Cách làm chung và bảo vệ main](CONTRIBUTING.md)
 - [Các bước phát triển và chia task UI](docs/CONG_VIEC_TIEP_THEO.md)
@@ -99,7 +105,8 @@ Bạn hỗ trợ dự án này:
 https://github.com/indominusrex932005-arch/Quan-ly-dat-san-the-thao
 
 Trước khi sửa code, đọc AGENTS.md, README.md, CONTRIBUTING.md,
-docs/QUY_TAC_PROTOTYPE.md, docs/API.md và code liên quan.
+docs/QUY_TAC_PROTOTYPE.md, docs/KIEN_TRUC_MVC.md, docs/API.md
+và code liên quan.
 Phân biệt luồng mẫu đang chạy với chức năng thật chưa triển khai.
 
 Task của tôi: [ghi một task cụ thể].

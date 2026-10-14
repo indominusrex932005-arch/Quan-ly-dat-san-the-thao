@@ -2,6 +2,8 @@
 
 Mục tiêu là nộp final sau 3 tuần theo `KE_HOACH_3_TUAN.md`, không chỉ hoàn thành prototype. Giao diện mẫu đang có để chạy thử và thống nhất cách dùng; nghiệp vụ thật cần API, dữ liệu lưu và kiểm thử tương ứng.
 
+Code đã tách MVC. Đọc [cấu trúc và nơi sửa code](KIEN_TRUC_MVC.md) trước khi nhận task; việc tách này giữ luồng hiện có, không thay thế phần nghiệp vụ thật còn thiếu.
+
 ## Luồng cần giữ
 
 Chọn sân/ngày/ô → tên/SĐT → backend giữ chỗ 10 phút → xác nhận → thanh toán 100% → backend xác minh tiền → phiếu đặt sân → chủ sân tra mã và check-in.
@@ -22,6 +24,18 @@ Nhóm trưởng giữ header/footer, thiết kế chung, route/hợp đồng API
 Form đơn ngoài web là task bổ sung khi có nhu cầu; đầu vào tên/SĐT, sân/ngày/ô, số tiền nhận và phương thức. Phải kiểm tra lịch trống, không chỉ đổi màu UI.
 
 Với API chưa có, dùng dữ liệu mẫu có nhãn và liệt kê điểm cần nối. Không dùng kết quả `/demo/confirm` cho luồng thanh toán thật. Từng PR bàn giao ảnh desktop/điện thoại, thao tác đã kiểm tra và phần còn thiếu. Chạy `npm run check` và `npm test` khi sửa code.
+
+## Chia phần code theo MVC
+
+| Task | Nơi làm chính |
+|---|---|
+| UI chọn cơ sở/sân/lịch | `views/home.ejs`, `facility.ejs`, `court.ejs` và CSS/JS liên quan trong `public/` |
+| UI xác nhận/thanh toán/phiếu | `views/quote.ejs`, `demo-payment.ejs`, `demo-receipt.ejs`; trang mẫu dùng demo controller, trang thật cần dữ liệu booking thật |
+| UI chủ sân | `views/owner-login.ejs`, `demo-owner.ejs`; controller/routes chủ sân sẽ phát triển tiếp sau khi có login/phân quyền |
+| API và nghiệp vụ | Routes/controller theo chức năng, `src/services/`, `src/domain/`; giá, giữ chỗ, thanh toán và quyền kiểm tra ở backend |
+| Database | `src/models/`, dữ liệu truy vấn/transaction trong services; giữ tên trường theo hợp đồng API |
+
+Thêm URL vào router tương ứng và xử lý request trong controller; không đưa toàn bộ chức năng mới vào `app.js`. Khi thêm chức năng thật, tách rõ với `/demo/...`, cập nhật hợp đồng dữ liệu và báo phần UI cần nối. Header/footer, CSS chung và việc gắn router mới vẫn cần thống nhất trước khi sửa.
 
 ## Thứ tự triển khai nghiệp vụ
 

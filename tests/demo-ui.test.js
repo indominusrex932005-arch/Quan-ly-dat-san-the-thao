@@ -90,4 +90,14 @@ describe('Luồng thử giao diện, tách khỏi đặt sân thật', () => {
     expect((await request(app).post('/demo/checkout').type('form').send(form)).status).toBe(404);
     expect((await request(app).post('/demo/confirm/test')).status).toBe(404);
   });
+
+  it('hai ứng dụng không dùng chung phiên mẫu sau khi tách routes và controllers', async () => {
+    const first = setup().app;
+    const second = setup().app;
+    const token = await checkout(first);
+    await request(first).post('/demo/confirm/' + token);
+    expect((await request(first).get('/demo/receipt/' + token)).status).toBe(200);
+    expect((await request(second).get('/demo/receipt/' + token)).status).toBe(404);
+    expect((await request(second).get('/demo/owner')).text).not.toContain('Khách thử');
+  });
 });

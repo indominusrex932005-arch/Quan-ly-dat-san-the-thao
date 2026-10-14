@@ -1,5 +1,12 @@
 import { z } from 'zod';
 
+// Form HTML gửi một ô thành chuỗi; API JSON gửi danh sách ô.
+export function quoteFormInput(body = {}) {
+  body = body ?? {};
+  const times = body.times === undefined ? [] : Array.isArray(body.times) ? body.times : [body.times];
+  return { courtId: body.courtId, date: body.date, times, guest: { name: body.name, phone: body.phone } };
+}
+
 export const guestSchema = z.object({
   name: z.string().trim().min(2, 'Tên cần ít nhất 2 ký tự.').max(100),
   phone: z.string().trim().transform(value => value.replace(/[\s.-]/g, '').replace(/^\+84/, '0'))
