@@ -1,6 +1,6 @@
-# Hệ thống quản lý đặt sân thể thao – Nhóm 5
+# Hệ thống quản lý đặt sân thể thao
 
-Dự án cho môn System và Advanced Web. Nhóm có 4 thành viên, còn 3 tuần để hoàn thành và nộp bản final. Bản hiện tại là bộ khởi đầu để phát triển chung, chưa phải hệ thống đặt sân hoàn chỉnh. Dữ liệu mẫu phục vụ phát triển; mục tiêu bản nộp là các chức năng đã thống nhất chạy với dữ liệu lưu thật.
+Thời hạn hiện tại còn 3 tuần để hoàn thành và nộp bản final. Bản hiện tại là bộ khởi đầu để phát triển chung, chưa phải hệ thống đặt sân hoàn chỉnh. Dữ liệu mẫu phục vụ phát triển; mục tiêu bản nộp là các chức năng đã thống nhất chạy với dữ liệu lưu thật.
 
 ## Công nghệ
 

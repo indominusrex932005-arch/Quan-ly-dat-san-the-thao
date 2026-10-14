@@ -1,6 +1,6 @@
 # Hướng dẫn tiếp nhận dự án
 
-Dự án quản lý đặt sân thể thao cho môn System và Advanced Web, nhóm 4 người. Đọc hướng dẫn này trước khi sửa code. Repo hiện là bộ khởi đầu, chưa phải hệ thống đặt sân hoàn chỉnh. Nhóm trưởng xác nhận còn 3 tuần là nộp final; không diễn giải thời hạn này thành một mốc chỉ nộp prototype. Đọc `docs/KE_HOACH_3_TUAN.md` để biết mục tiêu bản hoàn chỉnh. Ngày nộp cụ thể chưa được cung cấp.
+Dự án quản lý đặt sân thể thao. Đọc hướng dẫn này trước khi sửa code. Repo hiện là bộ khởi đầu, chưa phải hệ thống đặt sân hoàn chỉnh. Nhóm trưởng xác nhận còn 3 tuần là nộp final; không diễn giải thời hạn này thành một mốc chỉ nộp prototype. Đọc `docs/KE_HOACH_3_TUAN.md` để biết mục tiêu bản hoàn chỉnh. Ngày nộp cụ thể chưa được cung cấp.
 
 ## Thứ tự đọc
 
