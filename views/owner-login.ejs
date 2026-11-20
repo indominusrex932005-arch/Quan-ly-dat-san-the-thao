@@ -1,13 +1,28 @@
 <%- include('partials/header') %>
-<div class="page-heading text-center"><p class="eyebrow">Dành cho chủ sân</p><h1>Quản lý sân, gọn một chỗ.</h1><p class="text-secondary">Một tài khoản cho mỗi cơ sở.</p></div>
-<section class="panel login-card mx-auto" aria-labelledby="owner-login-title">
-  <h2 id="owner-login-title" class="h4 mb-3">Chủ sân đăng nhập</h2>
-  <p class="demo-note">Đăng nhập thật chưa được triển khai. Các ô bên dưới đang tắt.</p>
-  <label class="form-label" for="owner-email">Email</label><input class="form-control mb-3" id="owner-email" type="email" placeholder="Email chủ sân" autocomplete="username" disabled>
-  <label class="form-label" for="owner-password">Mật khẩu</label><input class="form-control mb-4" id="owner-password" type="password" placeholder="Mật khẩu" autocomplete="current-password" disabled>
-  <button class="btn btn-primary w-100" disabled>Đăng nhập · Chưa kết nối</button>
-  <% if (demo) { %>
-    <div class="border-top mt-4 pt-4"><p class="small text-secondary">Muốn xem bố cục quản lý trước?</p><a class="btn btn-outline-secondary w-100" href="/demo/owner">Mở giao diện chủ sân mẫu →</a><p class="demo-note small mt-3 mb-0">Trang mẫu không đăng nhập và không cấp quyền quản lý thật.</p></div>
-  <% } %>
-</section>
+<div class="owner-login">
+  <header class="owner-login-heading">
+    <p class="eyebrow">DÀNH CHO CHỦ SÂN</p>
+    <h1 id="owner-login-title">Đăng nhập chủ sân</h1>
+    <p>Quản lý sân, gọn một chỗ.</p>
+  </header>
+  <section class="panel login-card" aria-label="Thông tin đăng nhập" aria-describedby="owner-login-note">
+    <p class="login-intro">Một tài khoản cho mỗi cơ sở.</p>
+    <p class="demo-note login-note" id="owner-login-note">
+      Đăng nhập thật chưa được hỗ trợ.
+      <% if (demo) { %>Trang quản lý mẫu bên dưới không yêu cầu đăng nhập hoặc cấp quyền quản lý thật.<% } else { %>Các ô nhập và nút hiện chưa sử dụng được.<% } %>
+    </p>
+    <label class="form-label" for="owner-email">Email</label>
+    <input class="form-control mb-3" id="owner-email" type="email" placeholder="Email chủ sân" autocomplete="username" disabled>
+    <label class="form-label" for="owner-password">Mật khẩu</label>
+    <input class="form-control mb-4" id="owner-password" type="password" placeholder="Mật khẩu" autocomplete="current-password" disabled>
+    <button class="btn btn-primary w-100" type="button" aria-describedby="owner-login-note" disabled>Đăng nhập</button>
+    <% if (demo) { %>
+      <div class="login-preview">
+        <p>Khám phá bố cục quản lý với dữ liệu mẫu.</p>
+        <a class="btn btn-outline-secondary w-100" href="/demo/owner">Xem quản lý mẫu <span aria-hidden="true">→</span></a>
+      </div>
+    <% } %>
+  </section>
+  <a class="back-link login-back" href="/"><span aria-hidden="true">←</span> Về trang chủ</a>
+</div>
 <%- include('partials/footer') %>
